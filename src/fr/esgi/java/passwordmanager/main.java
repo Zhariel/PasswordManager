@@ -1,4 +1,4 @@
-package fr.esgi.java.passwordmanager.display;
+package fr.esgi.java.passwordmanager;
 
 import fr.esgi.java.passwordmanager.display.menu.DisplayManager;
 
@@ -13,6 +13,7 @@ public class main {
         System.out.println("Bienvenue !\n");
         DisplayManager entry = new DisplayManager();
         Scanner scanner = new Scanner(System.in);
+        Session currentSession = Session.getInstace();
 
         while(true) {
 
