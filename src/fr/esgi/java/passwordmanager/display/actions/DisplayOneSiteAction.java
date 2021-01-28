@@ -27,8 +27,8 @@ public class DisplayOneSiteAction implements IAction {
     @Override
     public void launchForm() {
         Scanner scanner = new Scanner(System.in);
-        for(int i=0;i<numberInput;i++){
-            System.out.print(displayOneSiteForm.getInstructionsForm().get(i) +" : ");
+        for (int i = 0; i < numberInput; i++) {
+            System.out.print(displayOneSiteForm.getInstructionsForm().get(i) + " : ");
             displayOneSiteForm.getInputsForm().add(scanner.nextLine());
         }
         System.out.println("\n");

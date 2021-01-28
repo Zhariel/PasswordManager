@@ -7,9 +7,9 @@ import java.util.LinkedHashMap;
 
 public class MenuLogin extends Menu {
 
-    /** Create a MenuUser Object
-     * assign a name
-     * creat a actionMap containing the displayed sentense of option and its associated action
+    /** Create a MenuLogin Object
+     * assign a name and a type
+     * creat an actionMap containing the displayed sentense of option and its associated action
      */
 
     public MenuLogin(){

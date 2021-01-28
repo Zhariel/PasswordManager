@@ -10,37 +10,47 @@ import fr.esgi.java.passwordmanager.models.Site;
 import java.util.ArrayList;
 import java.util.List;
 
+/**Class DisplayManager
+ * Manage the output of this application
+ * */
+
 public class DisplayManager {
 
     private Menu currentMenu;
 
 
-    public Menu getCurrentMenu() {
-        return currentMenu;
-    }
-
     public DisplayManager(boolean isFirstlaunch) {
-        if (isFirstlaunch == true) {
+        if (isFirstlaunch) {
             launchMenu(MenuType.MAIN.toString());
         }
     }
 
+    public Menu getCurrentMenu() {
+        return currentMenu;
+    }
 
+    /**launchMenu
+     * @param type : Main or User. Corresplonding to Enum in the file MenuType
+     * Call the menu factory
+     * */
     public void launchMenu(String type) {
         MenuFactory factory = new MenuFactory();
         currentMenu = factory.getMenu(type);
         displayMenu(currentMenu);
     }
 
-    /**
+    /**displayMenu
+     * @param currentMenu : the current menu diplayed
      * Display menu options
      */
     public void displayMenu(Menu currentMenu) {
         System.out.println(generateTextOfMenu(currentMenu));
     }
 
-    /**
+    /**generateTextOfMenu
+     * @param currentMenu : the current menu diplayed
      * Generate menu's strings.
+     * @return String : Contain all the menu text.
      */
     private String generateTextOfMenu(Menu currentMenu) {
         StringBuilder sb = new StringBuilder();
@@ -53,6 +63,11 @@ public class DisplayManager {
         return sb.toString();
     }
 
+    /**executeAction
+     * @param actionNumber : index of the option menu
+     * launche the action binding at this option menu selected.
+     * @return boolean : feedback of the process.
+     */
     public boolean executeAction(int actionNumber) {
 
         int effectiveActionNumber = actionNumber - 1;
@@ -70,6 +85,13 @@ public class DisplayManager {
             return actionFeedBack;
         }
     }
+
+
+    /**updateMenu
+     * @param actionNumber : index of the option menu
+     * @param feedBackAction : boolean : feedback of the process.
+     * Switch the type of curent menu where login ou logout are succed.
+     */
 
     public void updateMenu(boolean feedBackAction, int actionNumber) {
 
@@ -92,6 +114,7 @@ public class DisplayManager {
         displayMenu(currentMenu);
     }
 
+
     public void displayListSite() {
 
         int nbSites = Session.getInstace().getCurrentUser().getListSites().size();
@@ -104,7 +127,7 @@ public class DisplayManager {
 
     public boolean displayOneSite(Form displayOneSiteForm) {
 
-        if(displayOneSiteForm.getInputsForm().get(0).equals("")){
+        if (displayOneSiteForm.getInputsForm().get(0).equals("")) {
             System.out.println("Saisie vide.");
             return false;
         }
@@ -122,9 +145,9 @@ public class DisplayManager {
     }
 
     public void sayHelloToUser() {
-        try{
-        System.out.println("Bonjour " + Session.getInstace().getCurrentUser().getId());
-        }catch(Exception e){
+        try {
+            System.out.println("Bonjour " + Session.getInstace().getCurrentUser().getId());
+        } catch (Exception e) {
             System.out.println("Bonjour");
         }
 

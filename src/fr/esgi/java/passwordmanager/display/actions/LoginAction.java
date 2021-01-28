@@ -1,7 +1,6 @@
 package fr.esgi.java.passwordmanager.display.actions;
 
 import fr.esgi.java.passwordmanager.Session;
-import fr.esgi.java.passwordmanager.display.menu.DisplayManager;
 import fr.esgi.java.passwordmanager.display.menu.model.Form;
 import fr.esgi.java.passwordmanager.models.User;
 
@@ -12,7 +11,7 @@ public class LoginAction implements IAction {
     private static final int numberInput = 2;
     private Form loginForm;
 
-    public LoginAction(){
+    public LoginAction() {
         loginForm = new Form("\nIdentification");
         loginForm.getInstructionsForm().add("Saisissez votre login");
         loginForm.getInstructionsForm().add("Saisissez votre mdp");
@@ -36,9 +35,9 @@ public class LoginAction implements IAction {
     @Override
     public void launchForm() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(loginForm.getTitle()+"\n");
-        for(int i=0;i<numberInput;i++){
-            System.out.print(loginForm.getInstructionsForm().get(i) +" : ");
+        System.out.println(loginForm.getTitle() + "\n");
+        for (int i = 0; i < numberInput; i++) {
+            System.out.print(loginForm.getInstructionsForm().get(i) + " : ");
             loginForm.getInputsForm().add(scanner.nextLine());
         }
         System.out.println("\n");

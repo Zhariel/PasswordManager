@@ -29,12 +29,13 @@ public class AddSiteAction implements IAction {
         creatSiteForm.getInstructionsForm().add("Voulez-vous un rappel y/n");
         creatSiteForm.getInstructionsForm().add("Ajout duree avant rappel (XXj/XXm/XXy) ");
 
-        List<Integer> tmpCursorList = Arrays.asList(0,5,0,0,0,0,0,0,1,0,1,0,1,0);
+        List<Integer> tmpCursorList = Arrays.asList(0, 5, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0);
         creatSiteForm.getCursor().addAll(tmpCursorList);
 
     }
 
     public boolean run() {
+
         launchForm();
 
         // Envoie la liste d'inputs ("creatSiteForm.getInputsForm()") à SiteManager exemple :
@@ -53,42 +54,49 @@ public class AddSiteAction implements IAction {
     public void launchForm() {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\n"+creatSiteForm.getTitle()+"\n");
+        System.out.println("\n" + creatSiteForm.getTitle() + "\n");
 
-        for(int i=0;i<numberInput;i++){
-            System.out.print(creatSiteForm.getInstructionsForm().get(i) +" : ");
+        for (int i = 0; i < numberInput; i++) {
+            System.out.print(creatSiteForm.getInstructionsForm().get(i) + " : ");
 
-            if(creatSiteForm.getCursor().get(i)!=0){
+            if (creatSiteForm.getCursor().get(i) != 0) {
 
-                String tmpInput;
-
-                do {
-
-                    tmpInput = scanner.nextLine();
-
-                    if(tmpInput.length()>0){
-                        tmpInput = tmpInput.substring(0, 1).toLowerCase();
-                    }else{
-                        tmpInput = "error";
-                        tmpInput = tmpInput.substring(0, 1).toLowerCase();
-                    }
-
-                    if (tmpInput.equals("y")) {
-                        creatSiteForm.getInputsForm().add(tmpInput);
-                    } else if (tmpInput.equals("n")) {
-                        creatSiteForm.getInputsForm().add(tmpInput);
-                        creatSiteForm.fillInputFormArrayListWhitNAValues(creatSiteForm.getCursor().get(i));
-                        i += creatSiteForm.getCursor().get(i);
-                    } else {
-                        System.out.print(creatSiteForm.getInstructionsForm().get(i) +" : ");
-                    }
-                }while (!tmpInput.equals("y") && !tmpInput.equals("n"));
-
-            }else{
+                checkYesOrNoQuestion(scanner, i);
+            } else {
                 creatSiteForm.getInputsForm().add(scanner.nextLine());
             }
         }
         System.out.println("\n");
     }
+
+
+    public void checkYesOrNoQuestion(Scanner scanner, int index) {
+
+        String tmpInput;
+
+        do {
+
+            tmpInput = scanner.nextLine();
+
+            if (tmpInput.length() > 0) {
+                tmpInput = tmpInput.substring(0, 1).toLowerCase();
+            } else {
+                tmpInput = "error";
+                tmpInput = tmpInput.substring(0, 1).toLowerCase();
+            }
+
+            if (tmpInput.equals("y")) {
+                creatSiteForm.getInputsForm().add(tmpInput);
+            } else if (tmpInput.equals("n")) {
+                creatSiteForm.getInputsForm().add(tmpInput);
+                creatSiteForm.fillInputFormArrayListWhitNAValues(creatSiteForm.getCursor().get(index));
+                index += creatSiteForm.getCursor().get(index);
+            } else {
+                System.out.print(creatSiteForm.getInstructionsForm().get(index) + " : ");
+            }
+        } while (!tmpInput.equals("y") && !tmpInput.equals("n"));
+    }
+
+
 }
 

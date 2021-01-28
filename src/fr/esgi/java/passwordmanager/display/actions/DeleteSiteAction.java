@@ -41,31 +41,7 @@ public class DeleteSiteAction implements IAction {
             System.out.print(deleteSiteForm.getInstructionsForm().get(i) + " : ");
 
             if (deleteSiteForm.getCursor().get(i) != 0) {
-
-                String tmpInput;
-
-                do {
-
-                    tmpInput = scanner.nextLine();
-
-                    if (tmpInput.length() > 0) {
-                        tmpInput = tmpInput.substring(0, 1).toLowerCase();
-                    } else {
-                        tmpInput = "error";
-                        tmpInput = tmpInput.substring(0, 1).toLowerCase();
-                    }
-
-                    if (tmpInput.equals("y")) {
-                        deleteSiteForm.getInputsForm().add(tmpInput);
-                    } else if (tmpInput.equals("n")) {
-                        deleteSiteForm.getInputsForm().add(tmpInput);
-                        deleteSiteForm.fillInputFormArrayListWhitNAValues(deleteSiteForm.getCursor().get(i));
-                        i += deleteSiteForm.getCursor().get(i);
-                    } else {
-                        System.out.print(deleteSiteForm.getInstructionsForm().get(i) + " : ");
-                    }
-                } while (!tmpInput.equals("y") && !tmpInput.equals("n"));
-
+                checkYesOrNoQuestion(scanner, i);
             } else {
                 deleteSiteForm.getInputsForm().add(scanner.nextLine());
             }
@@ -73,4 +49,32 @@ public class DeleteSiteAction implements IAction {
 
         System.out.println("\n");
     }
+
+    public void checkYesOrNoQuestion(Scanner scanner, int index) {
+        String tmpInput;
+
+        do {
+
+            tmpInput = scanner.nextLine();
+
+            if (tmpInput.length() > 0) {
+                tmpInput = tmpInput.substring(0, 1).toLowerCase();
+            } else {
+                tmpInput = "error";
+                tmpInput = tmpInput.substring(0, 1).toLowerCase();
+            }
+
+            if (tmpInput.equals("y")) {
+                deleteSiteForm.getInputsForm().add(tmpInput);
+            } else if (tmpInput.equals("n")) {
+                deleteSiteForm.getInputsForm().add(tmpInput);
+                deleteSiteForm.fillInputFormArrayListWhitNAValues(deleteSiteForm.getCursor().get(index));
+                index += deleteSiteForm.getCursor().get(index);
+            } else {
+                System.out.print(deleteSiteForm.getInstructionsForm().get(index) + " : ");
+            }
+        } while (!tmpInput.equals("y") && !tmpInput.equals("n"));
+
+    }
+
 }

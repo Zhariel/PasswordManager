@@ -3,9 +3,10 @@ package fr.esgi.java.passwordmanager.display.menu.model;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-/** Class Form
+/**
+ * Class Form
  * Contain the skeleton of forms displayed
-*/
+ */
 public class Form {
     private String title;
     private ArrayList<String> instructionsForm;
@@ -19,7 +20,12 @@ public class Form {
      */
     private ArrayList<Integer> cursor;
 
-    public Form(String title){
+    /**
+     * Constructor
+     *
+     * @param title : title of the form
+     */
+    public Form(String title) {
         this.title = title;
         this.inputsForm = new ArrayList<String>();
         this.instructionsForm = new ArrayList<String>();
@@ -42,14 +48,24 @@ public class Form {
         return title;
     }
 
-    public void  fillInputFormArrayListWhitNAValues(int numberCursor){
+    /**
+     * fillInputFormArrayListWhitNAValues
+     *
+     * @param numberCursor : number of inputs not displayed because user has choosen NO for a No/Yes Question in a form.
+     * This inputs jumped are fill with null in the ArrayList instructionsForm
+     */
+    public void fillInputFormArrayListWhitNAValues(int numberCursor) {
 
-        for(int i=0;i<numberCursor;i++){
+        for (int i = 0; i < numberCursor; i++) {
             inputsForm.add(null);
         }
     }
 
-    public void emptyList(){
+    /**
+     * emptyList
+     * Clear the inputsForm for a futur new entry
+     */
+    public void emptyList() {
         inputsForm.clear();
     }
 }

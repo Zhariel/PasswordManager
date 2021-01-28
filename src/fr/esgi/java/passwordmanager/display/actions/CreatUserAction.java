@@ -10,6 +10,7 @@ public class CreatUserAction implements IAction {
     private Form creatUserForm;
 
     public CreatUserAction() {
+
         creatUserForm = new Form("Creation d'un utilisateur");
         creatUserForm.getInstructionsForm().add("Saisissez un login");
         creatUserForm.getInstructionsForm().add("Saisissez un mdp");
@@ -33,12 +34,15 @@ public class CreatUserAction implements IAction {
 
     @Override
     public void launchForm() {
+
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\n"+creatUserForm.getTitle()+"\n");
+        System.out.println("\n" + creatUserForm.getTitle() + "\n");
+
         for(int i=0;i<numberInput;i++){
             System.out.print(creatUserForm.getInstructionsForm().get(i) +" : ");
             creatUserForm.getInputsForm().add(scanner.nextLine());
         }
+
         System.out.println();
     }
 }

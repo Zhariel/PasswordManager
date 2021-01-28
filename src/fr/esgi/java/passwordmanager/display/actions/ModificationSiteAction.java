@@ -29,7 +29,7 @@ public class ModificationSiteAction implements IAction {
         modificationSiteForm.getInstructionsForm().add("Voulez-vous un rappel y/n");
         modificationSiteForm.getInstructionsForm().add("Ajout duree avant rappel (XXj/XXm/XXy) ");
 
-        List<Integer> tmpCursorList = Arrays.asList(0,5,0,0,0,0,0,0,1,0,1,0,1,0);
+        List<Integer> tmpCursorList = Arrays.asList(0, 5, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0);
         modificationSiteForm.getCursor().addAll(tmpCursorList);
 
     }
@@ -51,41 +51,43 @@ public class ModificationSiteAction implements IAction {
     public void launchForm() {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\n"+modificationSiteForm.getTitle()+"\n");
+        System.out.println("\n" + modificationSiteForm.getTitle() + "\n");
 
-        for(int i=0;i<numberInput;i++){
-            System.out.print(modificationSiteForm.getInstructionsForm().get(i) +" : ");
+        for (int i = 0; i < numberInput; i++) {
+            System.out.print(modificationSiteForm.getInstructionsForm().get(i) + " : ");
 
-            if(modificationSiteForm.getCursor().get(i)!=0){
-
-                String tmpInput;
-
-                do {
-
-                    tmpInput = scanner.nextLine();
-
-                    if(tmpInput.length()>0){
-                        tmpInput = tmpInput.substring(0, 1).toLowerCase();
-                    }else{
-                        tmpInput = "error";
-                        tmpInput = tmpInput.substring(0, 1).toLowerCase();
-                    }
-
-                    if (tmpInput.equals("y")) {
-                        modificationSiteForm.getInputsForm().add(tmpInput);
-                    } else if (tmpInput.equals("n")) {
-                        modificationSiteForm.getInputsForm().add(tmpInput);
-                        modificationSiteForm.fillInputFormArrayListWhitNAValues(modificationSiteForm.getCursor().get(i));
-                        i += modificationSiteForm.getCursor().get(i);
-                    } else {
-                        System.out.print(modificationSiteForm.getInstructionsForm().get(i) +" : ");
-                    }
-                }while (!tmpInput.equals("y") && !tmpInput.equals("n"));
-
-            }else{
+            if (modificationSiteForm.getCursor().get(i) != 0) {
+                checkYesOrNoQuestion(scanner, i);
+            } else {
                 modificationSiteForm.getInputsForm().add(scanner.nextLine());
             }
         }
         System.out.println("\n");
+    }
+
+    public void checkYesOrNoQuestion(Scanner scanner, int index) {
+        String tmpInput;
+
+        do {
+
+            tmpInput = scanner.nextLine();
+
+            if (tmpInput.length() > 0) {
+                tmpInput = tmpInput.substring(0, 1).toLowerCase();
+            } else {
+                tmpInput = "error";
+                tmpInput = tmpInput.substring(0, 1).toLowerCase();
+            }
+
+            if (tmpInput.equals("y")) {
+                modificationSiteForm.getInputsForm().add(tmpInput);
+            } else if (tmpInput.equals("n")) {
+                modificationSiteForm.getInputsForm().add(tmpInput);
+                modificationSiteForm.fillInputFormArrayListWhitNAValues(modificationSiteForm.getCursor().get(index));
+                index += modificationSiteForm.getCursor().get(index);
+            } else {
+                System.out.print(modificationSiteForm.getInstructionsForm().get(index) + " : ");
+            }
+        } while (!tmpInput.equals("y") && !tmpInput.equals("n"));
     }
 }
