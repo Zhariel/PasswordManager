@@ -13,7 +13,7 @@ public class ModificationSiteAction implements IAction {
 
     public ModificationSiteAction() {
 
-        modificationSiteForm = new Form("Ajout d'un site");
+        modificationSiteForm = new Form("Modification d'un site");
         modificationSiteForm.getInstructionsForm().add("Saisissez le nom du site");
         modificationSiteForm.getInstructionsForm().add("Voulez-vous personnaliser les contraintes y/n");
         modificationSiteForm.getInstructionsForm().add("Longueur mdp");
@@ -51,15 +51,26 @@ public class ModificationSiteAction implements IAction {
     public void launchForm() {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println(modificationSiteForm.getTitle());
+        System.out.println("\n"+modificationSiteForm.getTitle()+"\n");
 
         for(int i=0;i<numberInput;i++){
             System.out.print(modificationSiteForm.getInstructionsForm().get(i) +" : ");
 
             if(modificationSiteForm.getCursor().get(i)!=0){
-                String tmpInput = scanner.nextLine().substring(0,1).toLowerCase();
+
+                String tmpInput;
 
                 do {
+
+                    tmpInput = scanner.nextLine();
+
+                    if(tmpInput.length()>0){
+                        tmpInput = tmpInput.substring(0, 1).toLowerCase();
+                    }else{
+                        tmpInput = "error";
+                        tmpInput = tmpInput.substring(0, 1).toLowerCase();
+                    }
+
                     if (tmpInput.equals("y")) {
                         modificationSiteForm.getInputsForm().add(tmpInput);
                     } else if (tmpInput.equals("n")) {
@@ -68,16 +79,13 @@ public class ModificationSiteAction implements IAction {
                         i += modificationSiteForm.getCursor().get(i);
                     } else {
                         System.out.print(modificationSiteForm.getInstructionsForm().get(i) +" : ");
-                        tmpInput = scanner.nextLine().substring(0, 1).toLowerCase();
                     }
                 }while (!tmpInput.equals("y") && !tmpInput.equals("n"));
 
             }else{
                 modificationSiteForm.getInputsForm().add(scanner.nextLine());
             }
-            System.out.println();
         }
-
-        System.out.println(modificationSiteForm.getInputsForm());
+        System.out.println("\n");
     }
 }

@@ -33,10 +33,11 @@ public class ModificationPasswordAction implements IAction {
     @Override
     public void launchForm() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("\n"+modificationPasswordForm.getTitle()+"\n");
         for(int i=0;i<numberInput;i++){
             System.out.print(modificationPasswordForm.getInstructionsForm().get(i) +" : ");
             modificationPasswordForm.getInputsForm().add(scanner.nextLine());
-            System.out.println();
         }
+        System.out.println();
     }
 }

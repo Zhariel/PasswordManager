@@ -6,7 +6,7 @@ public class PasswordForgotAction implements IAction {
     }
 
     public boolean run() {
-        System.out.println("Option a implementer.");
+        System.out.println("\nOption a implementer.\n");
         return true;
     }
 

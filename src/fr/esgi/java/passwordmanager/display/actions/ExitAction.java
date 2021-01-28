@@ -6,6 +6,7 @@ public class ExitAction implements IAction {
     }
 
     public boolean run() {
+        System.out.println("\nA tantôt!");
         System.exit(0);
         return true;
     }

@@ -1,5 +1,8 @@
 package fr.esgi.java.passwordmanager.display.actions;
 
+import fr.esgi.java.passwordmanager.display.menu.DisplayManager;
+import fr.esgi.java.passwordmanager.display.menu.model.Form;
+
 public class DisplayListSiteAction implements IAction {
 
 
@@ -8,7 +11,8 @@ public class DisplayListSiteAction implements IAction {
 
     public boolean run() {
 
-        System.out.println("ListSites");
+        DisplayManager entry = new DisplayManager(false);
+        entry.displayListSite();
         return true;
     }
 

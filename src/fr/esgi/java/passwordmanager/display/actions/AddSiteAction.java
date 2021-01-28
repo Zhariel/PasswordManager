@@ -53,15 +53,26 @@ public class AddSiteAction implements IAction {
     public void launchForm() {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println(creatSiteForm.getTitle());
+        System.out.println("\n"+creatSiteForm.getTitle()+"\n");
 
         for(int i=0;i<numberInput;i++){
             System.out.print(creatSiteForm.getInstructionsForm().get(i) +" : ");
 
             if(creatSiteForm.getCursor().get(i)!=0){
-                String tmpInput = scanner.nextLine().substring(0,1).toLowerCase();
+
+                String tmpInput;
 
                 do {
+
+                    tmpInput = scanner.nextLine();
+
+                    if(tmpInput.length()>0){
+                        tmpInput = tmpInput.substring(0, 1).toLowerCase();
+                    }else{
+                        tmpInput = "error";
+                        tmpInput = tmpInput.substring(0, 1).toLowerCase();
+                    }
+
                     if (tmpInput.equals("y")) {
                         creatSiteForm.getInputsForm().add(tmpInput);
                     } else if (tmpInput.equals("n")) {
@@ -70,17 +81,14 @@ public class AddSiteAction implements IAction {
                         i += creatSiteForm.getCursor().get(i);
                     } else {
                         System.out.print(creatSiteForm.getInstructionsForm().get(i) +" : ");
-                        tmpInput = scanner.nextLine().substring(0, 1).toLowerCase();
                     }
                 }while (!tmpInput.equals("y") && !tmpInput.equals("n"));
 
             }else{
                 creatSiteForm.getInputsForm().add(scanner.nextLine());
             }
-                System.out.println();
         }
-
-        System.out.println(creatSiteForm.getInputsForm());
+        System.out.println("\n");
     }
 }
 

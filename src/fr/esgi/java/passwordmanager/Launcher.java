@@ -5,24 +5,33 @@ import fr.esgi.java.passwordmanager.display.menu.DisplayManager;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class main {
+public class Launcher {
 
     public static void main(String[] args) {
 
-        //Initialization
-        System.out.println("Bienvenue !\n");
-        DisplayManager entry = new DisplayManager();
+        //********************
+        //***Initialization***
+        //********************
+        System.out.println("\nBienvenue !\n");
+        DisplayManager entry = new DisplayManager(true);
         Scanner scanner = new Scanner(System.in);
-        Session currentSession = Session.getInstace();
+        Session.getInstace();
 
-        while(true) {
+
+        //********************
+        //**Loop Application**
+        //********************
+
+
+        while (true) {
 
             try {
                 // TODO some error checking.
-                System.out.print("Saisissez votre choix ( 1 a "+entry.getCurrentMenu().actionsMap.size()+") : ");
+                System.out.print("Saisissez votre choix ( 1 a " + entry.getCurrentMenu().actionsMap.size() + ") : ");
                 int actionNumber = scanner.nextInt();
                 boolean feedBBack = entry.executeAction(actionNumber);
-                entry.updateMenu(feedBBack,actionNumber);
+                entry.updateMenu(feedBBack, actionNumber);
+
 
             } catch (InputMismatchException ec) {
 
