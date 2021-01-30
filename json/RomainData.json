@@ -1,5 +1,5 @@
 [ {
-  "siteName" : "discord",
+  "name" : "discord",
   "password" : "HQlkfHQ$a",
   "idUserInSite" : "hezel",
   "constraint" : {
@@ -16,7 +16,7 @@
     "comment" : "added with long duration"
   }
 }, {
-  "siteName" : "amazon",
+  "name" : "amazon",
   "password" : "BPoc1nFKSDf",
   "idUserInSite" : "hezelnut",
   "constraint" : {
@@ -33,7 +33,7 @@
     "comment" : "added with short duration"
   }
 }, {
-  "siteName" : "twitch",
+  "name" : "twitch",
   "password" : "Pan0Axhq*a",
   "idUserInSite" : "rom1",
   "constraint" : {
