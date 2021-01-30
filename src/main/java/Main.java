@@ -16,21 +16,22 @@ public class Main {
         System.out.println(s.metaData.getDateCreation().toString());
 
         UserManager usm = new UserManager();
-        Password thevertpassword = new Password("THHKTkTe");
-        User tvm = new User("thévertman", thevertpassword, "thévert@gmail.com", usm.listSites(d));
+        Password romainpassword = new Password("THHKTkTe");
+        User romain = new User("romain", romainpassword, "thévert@gmail.com", usm.listSites(d));
 
-        usm.deleteUser(tvm);
+        //usm.insertUser(tvm);
+        //usm.deleteUser(tvm);
 
         //sm.addSite(d, s);
         //sm.deleteSite(d, s);
-    }
 
-    public void test(User romain){
+        //System.out.println(tvm.ListeSites.get(0).toString());
+
         int i = 0;
         for(Site site : romain.ListeSites){
             System.out.println("");
 
-            System.out.println(romain.ListeSites.get(i).getSiteName());
+            System.out.println(romain.ListeSites.get(i).getName());
             System.out.println(romain.ListeSites.get(i).getPassword());
             System.out.println(romain.ListeSites.get(i).getIdUserInSite());
 
@@ -47,5 +48,9 @@ public class Main {
 
             i++;
         }
+    }
+
+    public void test(User romain){
+
     }
 }

@@ -18,7 +18,7 @@ public class SiteManager {
 
         if(nodeArray.isArray()){
             for(JsonNode n : nodeArray){
-                if(n.get("siteName").toString().replace("\"", "").equals(site)){
+                if(n.get("name").toString().replace("\"", "").equals(site)){
                     System.out.println("Site " + site + " déjà existant.");
                     return true;
                 }
@@ -30,7 +30,7 @@ public class SiteManager {
 
     public void insertSite(DataFile d, Site s){
         try {
-            if(checkDuplicateSite(d, s.getSiteName())){
+            if(checkDuplicateSite(d, s.getName())){
                 return;
             }
             ObjectMapper mapper = new ObjectMapper();
@@ -40,10 +40,10 @@ public class SiteManager {
 
             array.add(site);
             mapper.writeValue(d.file, array);
-            System.out.println(s.getSiteName() + " added successfully.");
+            System.out.println(s.getName() + " added successfully.");
         }
         catch (Exception e){
-            System.out.println("Couldn't add " + s.getSiteName());
+            System.out.println("Couldn't add " + s.getName());
             System.out.println(e);
         }
     }
@@ -57,9 +57,9 @@ public class SiteManager {
             if(array.isArray()){
                 int index = 0;
                 for(JsonNode n : array){
-                    if(n.get("siteName").toString().replace("\"", "").equals(s.getSiteName())){
+                    if(n.get("siteName").toString().replace("\"", "").equals(s.getName())){
                         array.remove(index);
-                        System.out.println("Site " + s.getSiteName() + " a été supprimé.");
+                        System.out.println("Site " + s.getName() + " a été supprimé.");
                         break;
                     }
                     index++;
@@ -91,7 +91,7 @@ public class SiteManager {
         metadata.put("duration", s.metaData.getDuration());
         metadata.put("comment", s.metaData.getComment());
 
-        site.put("siteName", s.getSiteName());
+        site.put("siteName", s.getName());
         site.put("password", s.getPassword());
         site.put("idUserInSite", s.getIdUserInSite());
         site.put("constraint", constraint);
@@ -121,7 +121,7 @@ public class SiteManager {
         );
 
         Site s = new Site(
-                node.get("siteName").toString().replace("\"", ""),
+                node.get("name").toString().replace("\"", ""),
                 node.get("password").toString().replace("\"", ""),
                 node.get("idUserInSite").toString().replace("\"", ""),
                 c,

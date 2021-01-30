@@ -34,4 +34,13 @@ public class Metadata {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    @Override
+    public String toString() {
+        return "Metadata{" +
+                "dateCreation=" + dateCreation +
+                ", duration=" + duration +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 }

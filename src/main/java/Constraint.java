@@ -62,4 +62,16 @@ public class Constraint {
     public void setDigits(int digits) {
         this.digits = digits;
     }
+
+    @Override
+    public String toString() {
+        return "Constraint{" +
+                "totalLength=" + totalLength +
+                ", upperCase=" + upperCase +
+                ", lowerCase=" + lowerCase +
+                ", specialChars=" + specialChars +
+                ", letters=" + letters +
+                ", digits=" + digits +
+                '}';
+    }
 }
