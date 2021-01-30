@@ -1,0 +1,52 @@
+[ {
+  "siteName" : "discord",
+  "password" : "HQlkfHQ$a",
+  "idUserInSite" : "hezel",
+  "constraint" : {
+    "totalLength" : 8,
+    "upperCase" : 0,
+    "lowerCase" : 0,
+    "specialChars" : 0,
+    "letters" : 0,
+    "digits" : 0
+  },
+  "metaData" : {
+    "dateCreation" : "2020-10-12",
+    "duration" : 12,
+    "comment" : "added with long duration"
+  }
+}, {
+  "siteName" : "amazon",
+  "password" : "BPoc1nFKSDf",
+  "idUserInSite" : "hezelnut",
+  "constraint" : {
+    "totalLength" : 12,
+    "upperCase" : 2,
+    "lowerCase" : 2,
+    "specialChars" : 2,
+    "letters" : 2,
+    "digits" : 2
+  },
+  "metaData" : {
+    "dateCreation" : "2020-12-20",
+    "duration" : 3,
+    "comment" : "added with short duration"
+  }
+}, {
+  "siteName" : "twitch",
+  "password" : "Pan0Axhq*a",
+  "idUserInSite" : "rom1",
+  "constraint" : {
+    "totalLength" : 18,
+    "upperCase" : 1,
+    "lowerCase" : 1,
+    "specialChars" : 1,
+    "letters" : 1,
+    "digits" : 1
+  },
+  "metaData" : {
+    "dateCreation" : "2021-01-28",
+    "duration" : 6,
+    "comment" : "pizza"
+  }
+} ]
