@@ -1,13 +1,19 @@
 package fr.esgi.java.passwordmanager.models;
+
 import java.time.LocalDate;
-import java.util.Date;
+
+/**Class Metadata
+ * Class contains date of creation of one site, commentary and duration before a reminder for change password.
+ * **/
 
 public class Metadata {
+
     private LocalDate dateCreation;
     private String duration;
     private String comment;
 
     public Metadata(LocalDate dateCreation, String duration, String comment) {
+
         this.dateCreation = dateCreation;
         this.duration = duration;
         this.comment = comment;
