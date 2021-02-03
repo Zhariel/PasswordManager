@@ -13,7 +13,6 @@ import java.util.List;
 /**Class DisplayManager
  * Manage the output of this application
  * */
-
 public class DisplayManager {
 
     private Menu currentMenu;
@@ -117,10 +116,11 @@ public class DisplayManager {
 
     public void displayListSite() {
 
-        int nbSites = Session.getInstace().getCurrentUser().getListSites().size();
+        int nbSites = Session.getInstance().getCurrentUser(). getListSites().size();
+        System.out.println(nbSites+" sites sont enregistes.");
 
         for (int i = 0; i < nbSites; i++) {
-            System.out.println(Session.getInstace().getCurrentUser().getListSites().get(i).getName());
+            System.out.println(Session.getInstance().getCurrentUser().getListSites().get(i).getName());
         }
 
     }
@@ -133,20 +133,20 @@ public class DisplayManager {
         }
 
         SiteManager siteManager = new SiteManager();
-        Site targetSite = siteManager.findSiteInListSites(displayOneSiteForm.getInputsForm().get(0));
+        Site targetSite= siteManager.findSiteInListSites(displayOneSiteForm.getInputsForm().get(0));
 
         if (targetSite == null) {
             System.out.println("Ce site n'est pas present dans votre base de donnees.");
             return false;
         }
 
-        //System.out.println(targetSite.toString());
+        System.out.println(targetSite.toString());
         return true;
     }
 
     public void sayHelloToUser() {
         try {
-            System.out.println("Bonjour " + Session.getInstace().getCurrentUser().getId());
+            System.out.println("Bonjour " + Session.getInstance().getCurrentUser().getName());
         } catch (Exception e) {
             System.out.println("Bonjour");
         }

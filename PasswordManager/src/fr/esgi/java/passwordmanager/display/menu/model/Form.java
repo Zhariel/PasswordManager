@@ -1,7 +1,10 @@
 package fr.esgi.java.passwordmanager.display.menu.model;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import fr.esgi.java.passwordmanager.managers.InputType;
+
+import java.util.*;
+import java.util.concurrent.SynchronousQueue;
+
 
 /**
  * Class Form
@@ -11,6 +14,7 @@ public class Form {
     private String title;
     private ArrayList<String> instructionsForm;
     private ArrayList<String> inputsForm;
+    private ArrayList<InputType> typeInputs;
 
     /**
      * This arrayList of Integer allows to know which instruction jumped to when the user answered "NO" to a specific instruction.
@@ -30,6 +34,7 @@ public class Form {
         this.inputsForm = new ArrayList<String>();
         this.instructionsForm = new ArrayList<String>();
         this.cursor = new ArrayList<Integer>();
+        this.typeInputs= new ArrayList<InputType>();
     }
 
     public ArrayList<String> getInputsForm() {
@@ -43,6 +48,8 @@ public class Form {
     public ArrayList<Integer> getCursor() {
         return cursor;
     }
+
+    public ArrayList<InputType> getTypeInputs() { return typeInputs; }
 
     public String getTitle() {
         return title;
@@ -68,4 +75,155 @@ public class Form {
     public void emptyList() {
         inputsForm.clear();
     }
+
+
+    public boolean checkYesOrNoQuestion(Scanner scanner, int index) {
+
+        String tmpInput;
+
+        do {
+
+            tmpInput = scanner.nextLine();
+
+            if (tmpInput.length() > 0) {
+                tmpInput = tmpInput.substring(0, 1).toLowerCase();
+            } else {
+                tmpInput = "error";
+                tmpInput = tmpInput.substring(0, 1).toLowerCase();
+            }
+
+            if (tmpInput.equals("y")) {
+                this.getInputsForm().add(tmpInput);
+                return true;
+            } else if (tmpInput.equals("n")) {
+                this.getInputsForm().add(tmpInput);
+                this.fillInputFormArrayListWhitNAValues(this.getCursor().get(index));
+                return false;
+            } else {
+                System.out.print(this.getInstructionsForm().get(index) + " : ");
+            }
+        } while (!tmpInput.equals("y") && !tmpInput.equals("n"));
+
+        return false;
+    }
+
+    public String checkIfInputIsEmpty(int index, Scanner scanner, String tmpInput){
+
+        String currentInput = tmpInput;
+
+        while(currentInput.equals("")){
+            System.out.print(this.getInstructionsForm().get(index) + " : ");
+            currentInput= scanner.nextLine();
+        }
+
+        return currentInput;
+    }
+
+    public String checkIfInputIsNumber(int index, Scanner scanner, String tmpInput){
+
+        String currentInput = tmpInput;
+
+        while(!isInterger(currentInput)){
+            System.out.print(this.getInstructionsForm().get(index) + " (Entier) : ");
+            currentInput= scanner.nextLine();
+        }
+
+        while(Integer.parseInt(currentInput)<0){
+            System.out.print(this.getInstructionsForm().get(index) + " (>0) : ");
+            currentInput= scanner.nextLine();
+        }
+
+        return currentInput;
+
+
+    }
+
+    public String checkIfInputIsEmail(int index, Scanner scanner, String tmpInput){
+
+        return null;
+    }
+
+    public String checkIfInputIsDuration(int index, Scanner scanner, String tmpInput){
+
+        String currentInput = tmpInput;
+
+        while (currentInput.length()!=11){
+            System.out.print(this.getInstructionsForm().get(index) + " [Respecter bien le format : XXj/XXm/XXy ] : ");
+            currentInput= scanner.nextLine();
+        }
+
+        boolean isDay,isMonth,isYear,isDate;
+
+        isDate = isDate(currentInput);
+
+        String day = currentInput.substring(0, 2);
+        String month = currentInput.substring(4, 6);
+        String year = currentInput.substring(8, 10);
+
+        isDay = isPositiveInteger(day);
+        isMonth = isPositiveInteger(month);
+        isYear = isPositiveInteger(year);
+
+
+        while(!isDay || !isMonth || !isYear || !isDate) {
+            System.out.print(this.getInstructionsForm().get(index) + " [Respecter bien le format : XXj/XXm/XXy ] : ");
+            currentInput= scanner.nextLine();
+            if(currentInput.length()!=11){
+                continue;
+            }
+
+            isDate = isDate(currentInput);
+            day = currentInput.substring(0, 2);
+            month = currentInput.substring(4, 6);
+            year = currentInput.substring(8, 10);
+
+            isDay = isPositiveInteger(day);
+            isMonth = isPositiveInteger(month);
+            isYear = isPositiveInteger(year);
+
+        }
+
+        return currentInput;
+    }
+
+    public static boolean isInterger(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int integer = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isDate(String currentInput){
+
+        //(XXj/XXm/XXy)
+
+        if(currentInput.charAt(3)!='/' ||currentInput.charAt(7)!='/'){
+            return false;
+        }
+
+        if(currentInput.charAt(2)!='j' || currentInput.charAt(6)!='m' || currentInput.charAt(10)!='y'){
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean isPositiveInteger(String day){
+
+        if(!isInterger(day)){
+            return false;
+        }
+
+        if(Integer.parseInt(day)<0){
+            return false;
+        }
+
+        return true;
+    }
+
 }

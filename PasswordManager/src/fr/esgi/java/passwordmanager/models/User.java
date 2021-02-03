@@ -1,16 +1,17 @@
-import java.util.List;
+package fr.esgi.java.passwordmanager.models;
 
+import java.util.List;
 public class User {
     private String name;
     public Password password;
     private String email;
-    public List<Site> ListeSites;
+    public List<Site> ListSites;
 
-    public User(String name, Password password, String email, List<Site> ListeSites) {
+    public User(String name, Password password, String email, List<Site> ListSites) {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.ListeSites = ListeSites;
+        this.ListSites = ListSites;
     }
 
     public String getName() {
@@ -37,11 +38,11 @@ public class User {
         this.email = email;
     }
 
-    public List<Site> getListeSites() {
-        return ListeSites;
+    public List<Site> getListSites() {
+        return ListSites;
     }
 
-    public void setListeSites(List<Site> listeSites) {
-        ListeSites = listeSites;
+    public void setListSites(List<Site> listSites) {
+        ListSites = listSites;
     }
 }

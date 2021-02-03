@@ -21,7 +21,10 @@ public class DisplayOneSiteAction implements IAction {
 
         launchForm();
         DisplayManager entry = new DisplayManager(false);
-        return entry.displayOneSite(displayOneSiteForm);
+        boolean feedBackAction = entry.displayOneSite(displayOneSiteForm);
+
+        displayOneSiteForm.emptyList();
+        return feedBackAction;
     }
 
     @Override

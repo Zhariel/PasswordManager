@@ -19,6 +19,7 @@ public class MenuLogin extends Menu {
         putAction("Identification",new LoginAction());
         putAction("Creation d'un utilisateur",new CreatUserAction());
         putAction("Changement de mdp",new ModificationPasswordAction());
+        putAction("Supression d'un utilisateur",new DeleteUserAction());
         putAction("Mot de passe oublie",new PasswordForgotAction());
         putAction("Quitter",new ExitAction());
 

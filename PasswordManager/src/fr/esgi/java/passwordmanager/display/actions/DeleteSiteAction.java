@@ -1,6 +1,7 @@
 package fr.esgi.java.passwordmanager.display.actions;
 
 import fr.esgi.java.passwordmanager.display.menu.model.Form;
+import fr.esgi.java.passwordmanager.managers.SiteManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,14 +23,12 @@ public class DeleteSiteAction implements IAction {
 
     public boolean run() {
         launchForm();
-        // Envoie la liste d'inputs ("deleteSiteForm.getInputsForm()") à SiteManager exemple :
-        // SiteManager siteManager = new SiteManager();
-        // boolean feedBackAction = siteManager->deleteSite(deleteSiteForm.getInputsForm());
 
-        //FORMAT de la liste d'inputs : ["nomSite","confirmation y/n"]  'tu recois tj un petit "y" ou un petit "n" pour les confirmations ou personalisation
-        // Tu peux aussi voir les champs affichés juste au-dessus dans la fonction DeleteSiteAction() (constructeur de cette classe.)
+        SiteManager siteManager = new SiteManager();
+        boolean feedBackAction = siteManager.initDeleteSite(deleteSiteForm.getInputsForm());
+
         deleteSiteForm.emptyList();
-        return true; //return feedBackAction
+        return feedBackAction;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package fr.esgi.java.passwordmanager.display.actions;
 
 import fr.esgi.java.passwordmanager.display.menu.model.Form;
+import fr.esgi.java.passwordmanager.managers.UserManager;
 
 import java.util.Scanner;
 
@@ -21,14 +22,12 @@ public class CreatUserAction implements IAction {
     @Override
     public boolean run() {
         launchForm();
-        // Envoie la liste d'inputs ("creatUserForm.getInputsForm()") à UserManager exemple :
-        // UserManager userManager = new UserManager();
-        // boolean feedBackAction = userManager->addUser(creatUserForm.getInputsForm());
 
-        //FORMAT de la liste d'inputs : ["login","mdp","confirmation mdp","mail"]
-        // Tu peux aussi voir les champs affichés juste au-dessus dans la fonction CreatUserAction() (constructeur de cette classe.)
+         UserManager userManager = new UserManager();
+         boolean feedBackAction = userManager.addUser(creatUserForm.getInputsForm());
+
         creatUserForm.emptyList();
-        return true; //return feedBackAction
+        return true;
     }
 
 

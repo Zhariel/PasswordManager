@@ -19,6 +19,7 @@ public class MenuFactory {
         return null;
     }
 
+
     public Menu getMenu(String type){
         return creatMenu(type);
     }

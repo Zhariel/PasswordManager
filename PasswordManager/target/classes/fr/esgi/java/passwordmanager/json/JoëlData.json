@@ -1,0 +1,75 @@
+[{
+  "name":"discord",
+  "password":"HQlkfHQ$a",
+  "idUser":"hezel",
+  "constraint":{
+    "totalLength":8,
+    "upperCase":1,
+    "lowerCase":1,
+    "specialChar":1,
+    "letter":4,
+    "digit":1},
+  "metaData":{
+    "dateCreation":"2020-10-12",
+    "duration":"00j/00m/12y",
+    "comment":"added with long duration"}
+},
+  {"name":"amazon",
+    "password":"BPoc1nFKSDf",
+    "idUser":"hezelnut",
+    "constraint":{
+      "totalLength":12,
+      "upperCase":2,
+      "lowerCase":2,
+      "specialChar":2,
+      "letter":2,
+      "digit":2
+    },"metaData":{
+    "dateCreation":"2020-12-20",
+    "duration":null,
+    "comment":"added with short duration"}
+  },
+  {"name":"twitch",
+    "password":"Pan0Axhq*a",
+    "idUser":"rom1",
+    "constraint":{
+      "totalLength":18,
+      "upperCase":1,
+      "lowerCase":1,
+      "specialChar":1,
+      "letter":1,
+      "digit":1},
+    "metaData":
+    {"dateCreation":"2021-01-28",
+      "duration":null,
+      "comment":"pizza"}
+  },{"name":"Test",
+  "password":"TestTest.12",
+  "idUser":"idTest",
+  "constraint":{
+    "totalLength":8,
+    "upperCase":1,
+    "lowerCase":1,
+    "specialChar":1,
+    "letter":4,
+    "digit":1
+  },"metaData":{
+    "dateCreation":"2021-01-31",
+    "duration":null,
+    "comment":"n"}
+},
+  {"name":"Nautiljion",
+    "password":"OWvt5hoE|ksB",
+    "idUser":"idNautiljion",
+    "constraint":
+    {"totalLength":12,
+      "upperCase":4,
+      "lowerCase":2,
+      "specialChar":1,
+      "letter":4,
+      "digit":1},
+    "metaData":{
+      "dateCreation":"2021-01-31",
+      "duration":"00j/00m/05y",
+      "comment":"ajout d'un commentaire"}
+  }]

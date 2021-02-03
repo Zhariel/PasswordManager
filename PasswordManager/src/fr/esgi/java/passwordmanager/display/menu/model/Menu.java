@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 /**
  * Class Menu : Pattern of menu.
  */
-
 public class Menu {
 
     public static final String instruction = "Veuillez saisir le numero de l'option que vous souhaitez effectuer";
@@ -23,7 +22,6 @@ public class Menu {
      * @param name   String displayed in Menu corresponding to option menu (named action in code).
      * @param action Class action bind to the option menu.
      */
-
     public void putAction(String name, IAction action) {
         actionsMap.put(name, action);
     }

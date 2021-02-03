@@ -5,70 +5,94 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import fr.esgi.java.passwordmanager.Session;
+import fr.esgi.java.passwordmanager.models.*;
+import fr.esgi.java.passwordmanager.files.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class SiteManager {
 
-    public boolean checkDuplicateSite(DataFile d, String site) throws IOException{
-        String fileString = "";
-        fileString = d.fileToString();
+    DataFile dataFile;
 
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode nodeArray = mapper.readTree(fileString);
+    public SiteManager() {
 
-        if(nodeArray.isArray()){
-            for(JsonNode n : nodeArray){
-                if(n.get("name").toString().replace("\"", "").equals(site)){
-                    System.out.println("Site " + site + " déjà existant.");
-                    return true;
-                }
+        dataFile = new DataFile(Session.getInstance().getCurrentUser().getName());
+    }
+
+
+    public boolean checkDuplicateSite(String newSite) {
+
+        for (Site site : Session.getInstance().getCurrentUser().getListSites()) {
+            if (site.getName().equals(newSite)) {
+                return true;
             }
         }
-
         return false;
     }
 
-    public Site createSite();
+    public boolean addSite(ArrayList<String> listInputs) {
 
-    public void insertSite(DataFile d, Site s){
+        Site newSite;
+
+        //First creat Site.
         try {
-            if(checkDuplicateSite(d, s.getName())){
-                return;
+            newSite = new Site(listInputs);
+        } catch (Exception e) {
+            System.out.println("Un probleme est survenu lors de l'ajout du site. Veuillez ressayer.");
+            return false;
+        }
+
+        //Second : InsertSite
+        return insertSite(newSite);
+    }
+
+
+    public boolean insertSite(Site s) {
+        try {
+
+            if (checkDuplicateSite(s.getName())) {
+                System.out.println("Site deja existant");
+                return false;
             }
+
             ObjectMapper mapper = new ObjectMapper();
-            ArrayNode array = (ArrayNode) mapper.readTree(d.file);
+            ArrayNode array = (ArrayNode) mapper.readTree(dataFile.file);
 
             ObjectNode site = javaToJson(s);
 
             array.add(site);
-            mapper.writeValue(d.file, array);
-            System.out.println(s.getName() + " added successfully.");
-        }
-        catch (Exception e){
-            System.out.println("Couldn't add " + s.getName());
+            mapper.writeValue(dataFile.file, array);
+            System.out.println("Ajout reussi pour " + s.getName());
+        } catch (Exception e) {
+            System.out.println("Impossible d'ajouter " + s.getName());
             System.out.println(e);
+            return false;
         }
+
+        Session.getInstance().getCurrentUser().ListSites.add(s);
+        return true;
     }
 
-    public void deleteSite(DataFile d, Site s){
+    public void deleteSite(Site s) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            ArrayNode array = (ArrayNode) mapper.readTree(d.file);
+            ArrayNode array = (ArrayNode) mapper.readTree(dataFile.file);
 
-            if(array.isArray()){
+            if (array.isArray()) {
                 int index = 0;
-                for(JsonNode n : array){
-                    if(n.get("siteName").toString().replace("\"", "").equals(s.getName())){
+                for (JsonNode n : array) {
+                    if (n.get("name").toString().replace("\"", "").equals(s.getName())) {
                         array.remove(index);
                         System.out.println("Site " + s.getName() + " a été supprimé.");
                         break;
                     }
                     index++;
                 }
-                mapper.writeValue(d.file, array);
+                mapper.writeValue(dataFile.file, array);
             }
 
         } catch (IOException e) {
@@ -76,7 +100,8 @@ public class SiteManager {
         }
     }
 
-    public ObjectNode javaToJson(Site s){
+    public ObjectNode javaToJson(Site s) {
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -87,65 +112,160 @@ public class SiteManager {
         constraint.put("totalLength", s.constraint.getTotalLength());
         constraint.put("upperCase", s.constraint.getUpperCase());
         constraint.put("lowerCase", s.constraint.getLowerCase());
-        constraint.put("specialChars", s.constraint.getSpecialChars());
-        constraint.put("letters", s.constraint.getLetters());
-        constraint.put("digits", s.constraint.getDigits());
+        constraint.put("specialChar", s.constraint.getSpecialChar());
+        constraint.put("letter", s.constraint.getLetter());
+        constraint.put("digit", s.constraint.getDigit());
 
         metadata.put("dateCreation", s.metaData.getDateCreation().toString());
         metadata.put("duration", s.metaData.getDuration());
         metadata.put("comment", s.metaData.getComment());
 
-        site.put("siteName", s.getName());
+        site.put("name", s.getName());
         site.put("password", s.getPassword());
-        site.put("idUserInSite", s.getIdUserInSite());
+        site.put("idUser", s.getIdUser());
         site.put("constraint", constraint);
         site.put("metaData", metadata);
 
         return site;
     }
 
-    public Site jsonToJava(JsonNode node){
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    public Site jsonToJava(JsonNode node) {
 
-        Constraint c = new Constraint(
-                node.get("constraint").get("totalLength").asInt(),
-                node.get("constraint").get("upperCase").asInt(),
-                node.get("constraint").get("lowerCase").asInt(),
-                node.get("constraint").get("specialChars").asInt(),
-                node.get("constraint").get("letters").asInt(),
-                node.get("constraint").get("digits").asInt()
-        );
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        LocalDate date = LocalDate.parse(node.get("metaData").get("dateCreation").toString().replace("\"", ""));
-        Metadata m = new Metadata(
-                date,
-                node.get("metaData").get("duration").asInt(),
-                node.get("metaData").get("comment").toString().replace("\"", "")
-        );
+            Constraint c = new Constraint(
+                    node.get("constraint").get("totalLength").asInt(),
+                    node.get("constraint").get("upperCase").asInt(),
+                    node.get("constraint").get("lowerCase").asInt(),
+                    node.get("constraint").get("specialChar").asInt(),
+                    node.get("constraint").get("letter").asInt(),
+                    node.get("constraint").get("digit").asInt()
+            );
 
-        Site s = new Site(
-                node.get("name").toString().replace("\"", ""),
-                node.get("password").toString().replace("\"", ""),
-                node.get("idUserInSite").toString().replace("\"", ""),
-                c,
-                m
-        );
+            LocalDate date = LocalDate.parse(node.get("metaData").get("dateCreation").toString().replace("\"", ""));
+            Metadata m = new Metadata(
+                    date,
+                    node.get("metaData").get("duration").toString().replace("\"", ""),
+                    node.get("metaData").get("comment").toString().replace("\"", "")
+            );
 
-        return s;
+            Password p = new Password(
+                    node.get("password").toString().replace("\"", ""), false
+            );
+
+            Site s = new Site(
+                    node.get("name").toString().replace("\"", ""),
+                    p,
+                    node.get("idUser").toString().replace("\"", ""),
+                    c,
+                    m
+            );
+
+            return s;
+
+        } catch (Exception e) {
+            System.out.println("Attention fichier data de configuration corrompue!");
+        }
+
+        return null;
+
     }
+
+
+    public ArrayList<Site> creatListSites() {
+
+        ArrayList<Site> sites = new ArrayList<Site>();
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayNode array = null;
+
+        if (!dataFile.file.exists()) {
+            System.out.println("Le fichier de donnee utilisateur est introuvable. L'application ne peut fonctionner sans.");
+            System.exit(1);
+        }
+
+        if (dataFile.file.length() == 0) {
+            return sites;
+        }
+
+        try {
+            array = (ArrayNode) mapper.readTree(dataFile.file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (array.isArray()) {
+            for (JsonNode node : array) {
+                Site tmpSite = jsonToJava(node);
+                if (tmpSite != null) {
+                    sites.add(tmpSite);
+
+                }
+            }
+        }
+
+        return sites;
+    }
+
 
     public Site findSiteInListSites(String site) {
 
-        int nbSites = Session.getInstace().getCurrentUser().getListSites().size();
+        int nbSites = Session.getInstance().getCurrentUser().getListSites().size();
 
         for (int i = 0; i < nbSites; i++) {
-            if (Session.getInstace().getCurrentUser().getListSites().get(i).getName().toLowerCase().equals(site.toLowerCase())) {
-                return Session.getInstace().getCurrentUser().getListSites().get(i);
+            if (Session.getInstance().getCurrentUser().getListSites().get(i).getName().toLowerCase().equals(site.toLowerCase())) {
+                return Session.getInstance().getCurrentUser().getListSites().get(i);
             }
         }
 
         return null;
 
     }
+
+    public boolean initDeleteSite(ArrayList<String> inputsForm) {
+
+        if (inputsForm.get(1).equals("y")) {
+            int i = 0;
+            for (Site site : Session.getInstance().getCurrentUser().getListSites()) {
+                if (site.getName().equals(inputsForm.get(0))) {
+                    deleteSite(site);
+                    Session.getInstance().getCurrentUser().getListSites().remove(i);
+                    return true;
+                }
+                i++;
+            }
+            System.out.println("Site demande non trouve.");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    public boolean modificationSite(ArrayList<String> inputsForm) {
+
+        Site siteSelected = findSiteInListSites(inputsForm.get(0));
+        if(siteSelected==null){
+            System.out.println("Site non trouve.");
+            return false;
+        }
+        deleteSite(siteSelected);
+        removeSiteToListSites(siteSelected);
+        addSite(inputsForm);
+
+        return true;
+    }
+
+    private void removeSiteToListSites(Site siteSelected) {
+        int i = 0;
+        for (Site site : Session.getInstance().getCurrentUser().getListSites()) {
+            if (site.getName().equals(siteSelected.getName())) {
+                Session.getInstance().getCurrentUser().getListSites().remove(i);
+                return;
+            }
+            i++;
+        }
+    }
+
 }

@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class Launcher {
 
+
     public static void main(String[] args) {
 
         //********************
@@ -15,18 +16,16 @@ public class Launcher {
         System.out.println("\nBienvenue !\n");
         DisplayManager entry = new DisplayManager(true);
         Scanner scanner = new Scanner(System.in);
-        Session.getInstace();
-
+        Session.getInstance();
+        Session.getInstance().initUserManager();
 
         //********************
         //**Loop Application**
         //********************
 
-
         while (true) {
 
             try {
-                // TODO some error checking.
                 System.out.print("Saisissez votre choix ( 1 a " + entry.getCurrentMenu().actionsMap.size() + ") : ");
                 int actionNumber = scanner.nextInt();
                 boolean feedBBack = entry.executeAction(actionNumber);
@@ -43,7 +42,8 @@ public class Launcher {
                 System.out.println("Une erreur imprevue est survenue.");
             }
         }
-
     }
+
 }
+
 

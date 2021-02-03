@@ -1,6 +1,8 @@
 package fr.esgi.java.passwordmanager.display.actions;
 
 import fr.esgi.java.passwordmanager.display.menu.model.Form;
+import fr.esgi.java.passwordmanager.managers.InputType;
+import fr.esgi.java.passwordmanager.managers.SiteManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,62 +34,53 @@ public class ModificationSiteAction implements IAction {
         List<Integer> tmpCursorList = Arrays.asList(0, 5, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0);
         modificationSiteForm.getCursor().addAll(tmpCursorList);
 
+        List<InputType> tmpInputsList = Arrays.asList(InputType.NAME,InputType.YESNO,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NAME,InputType.YESNO,InputType.PASSWORD,InputType.YESNO,InputType.COM,InputType.YESNO,InputType.DURATION);
+        modificationSiteForm.getTypeInputs().addAll(tmpInputsList);
+
     }
 
     public boolean run() {
         launchForm();
-        // Envoie la liste d'inputs ("modificationSiteForm.getInputsForm()") à SiteManager exemple :
-        // SiteManager siteManager = new SiteManager();
-        // boolean feedBackAction = siteManager->modificationSite(modificationSiteForm.getInputsForm());
+        SiteManager siteManager = new SiteManager();
+        boolean feedBackAction = siteManager.modificationSite(modificationSiteForm.getInputsForm());
 
-        //FORMAT de la liste d'inputs : ["nom site","personnalisation contraintes y/n","Longueur mdp","majuscule","minuscule","char spé","chiffre","id Site", "personnalisation mdp y/n","mdp","personnalisation metaDonnee","commentaire","personnalisation rappel","duree (XXj/XXm/XXy)"]
-        // Tu peux aussi voir les champs affichés juste au-dessus dans la fonction ModificationSiteAction() (constructeur de cette classe.)
-        //tu recois tj un petit "y" ou un petit "n" pour les confirmations ou personalisation
         modificationSiteForm.emptyList();
-        return true; //return feedBackAction
+        return feedBackAction;
     }
 
     @Override
     public void launchForm() {
 
         Scanner scanner = new Scanner(System.in);
+        String tmpInput;
         System.out.println("\n" + modificationSiteForm.getTitle() + "\n");
 
         for (int i = 0; i < numberInput; i++) {
+
             System.out.print(modificationSiteForm.getInstructionsForm().get(i) + " : ");
 
             if (modificationSiteForm.getCursor().get(i) != 0) {
-                checkYesOrNoQuestion(scanner, i);
+                if(!modificationSiteForm.checkYesOrNoQuestion(scanner, i)) {
+                    i += modificationSiteForm.getCursor().get(i);
+                }
             } else {
-                modificationSiteForm.getInputsForm().add(scanner.nextLine());
+
+                tmpInput = modificationSiteForm.checkIfInputIsEmpty(i,scanner,scanner.nextLine());
+
+                if(modificationSiteForm.getTypeInputs().get(i).equals(InputType.NUM)){
+
+                    tmpInput = modificationSiteForm.checkIfInputIsNumber(i,scanner,tmpInput);
+
+                }else if(modificationSiteForm.getTypeInputs().get(i).equals(InputType.DURATION)){
+
+                    tmpInput = modificationSiteForm.checkIfInputIsDuration(i,scanner,tmpInput);
+
+                }
+
+                modificationSiteForm.getInputsForm().add(tmpInput);
             }
         }
         System.out.println("\n");
     }
 
-    public void checkYesOrNoQuestion(Scanner scanner, int index) {
-        String tmpInput;
-
-        do {
-
-            tmpInput = scanner.nextLine();
-
-            if (tmpInput.length() > 0) {
-                tmpInput = tmpInput.substring(0, 1).toLowerCase();
-            } else {
-                tmpInput = "error";
-                tmpInput = tmpInput.substring(0, 1).toLowerCase();
-            }
-
-            if (tmpInput.equals("y")) {
-                modificationSiteForm.getInputsForm().add(tmpInput);
-            } else if (tmpInput.equals("n")) {
-                modificationSiteForm.getInputsForm().add(tmpInput);
-                modificationSiteForm.fillInputFormArrayListWhitNAValues(modificationSiteForm.getCursor().get(index));
-                index += modificationSiteForm.getCursor().get(index);
-            } else {
-                System.out.print(modificationSiteForm.getInstructionsForm().get(index) + " : ");
-            }
-        } while (!tmpInput.equals("y") && !tmpInput.equals("n"));
-    }
 }

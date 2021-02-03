@@ -1,11 +1,13 @@
+package fr.esgi.java.passwordmanager.models;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Metadata {
     private LocalDate dateCreation;
-    private int duration;
+    private String duration;
     private String comment;
 
-    public Metadata(LocalDate dateCreation, int duration, String comment) {
+    public Metadata(LocalDate dateCreation, String duration, String comment) {
         this.dateCreation = dateCreation;
         this.duration = duration;
         this.comment = comment;
@@ -19,11 +21,11 @@ public class Metadata {
         this.dateCreation = dateCreation;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 
@@ -37,10 +39,10 @@ public class Metadata {
 
     @Override
     public String toString() {
-        return "Metadata{" +
-                "dateCreation=" + dateCreation +
-                ", duration=" + duration +
-                ", comment='" + comment + '\'' +
-                '}';
+        return "\nMetadata{" +
+                "\n dateCreation=" + dateCreation +
+                ",\n duration=" + duration +
+                ",\n comment='" + comment + '\'' +
+                "\n}";
     }
 }

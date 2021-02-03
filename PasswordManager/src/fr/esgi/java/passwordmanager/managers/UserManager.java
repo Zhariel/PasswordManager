@@ -5,113 +5,318 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import fr.esgi.java.passwordmanager.Session;
+import fr.esgi.java.passwordmanager.files.UserFile;
+import fr.esgi.java.passwordmanager.models.*;
+import org.apache.commons.validator.routines.EmailValidator;
 
+
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserManager {
 
-    public List<Site> listSites(DataFile d){
+    private UserFile fileUsers;
+    public ArrayList<User> usersList;
 
-        List<Site> sites = new ArrayList<Site>();
+
+    public UserManager(){
+        fileUsers = new UserFile();
+        usersList = creationOfUsersList();
+    }
+
+
+    public ArrayList<User> creationOfUsersList(){
+
+        ArrayList<User> users = new ArrayList<User>();
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode array = null;
+
         try {
-            array = (ArrayNode) mapper.readTree(d.file);
+            array = (ArrayNode) mapper.readTree(fileUsers.file);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        SiteManager s = new SiteManager();
         if(array.isArray()){
             for(JsonNode node : array){
-                sites.add(s.jsonToJava(node));
+                users.add(jsonToJava(node));
             }
         }
 
-        return sites;
+        return users;
     }
 
-    public void insertUser(User u){
+
+    public void insertUser(User newUser){
         try {
-            if(checkDuplicateUser(u.getName())){
+            if(checkDuplicateUser(newUser.getName())){
                 return;
             }
-            UserFile f = new UserFile();
-            ObjectMapper mapper = new ObjectMapper();
-            ArrayNode array = (ArrayNode) mapper.readTree(f.file);
 
-            ObjectNode user = javaToJson(u);
+            ObjectMapper mapper = new ObjectMapper();
+            ArrayNode array = (ArrayNode) mapper.readTree(fileUsers.file);
+
+            ObjectNode user = javaToJson(newUser);
 
             array.add(user);
-            mapper.writeValue(f.file, array);
-            System.out.println(u.getName() + " added successfully.");
+            mapper.writeValue(fileUsers.file, array);
+            System.out.println(newUser.getName() + " ajout reussi.");
+
+            usersList.add(newUser);
+            creatDataFile(newUser);
+
         }
         catch (Exception e){
-            System.out.println("Couldn't add " + u.getName());
+            System.out.println("Impossible d'ajouter " + newUser.getName());
             System.out.println(e);
         }
+
     }
 
-    public void deleteUser(User u){
+    public boolean initDeleteUser(ArrayList<String> listInputs){
+        int i=0;
+        for (User user : usersList) {
+            if (user.getName().equals(listInputs.get(0))) {
+                if (user.getPassword().getPassword().equals(listInputs.get(1))) {
+                    deleteUser(user);
+                    return true;
+                }
+            }
+            i++;
+        }
+        System.out.println("L'utilisateur ou le mdp sont faux.");
+        return false;
+    }
+
+    public void deleteUser(User userSelected){
         try {
+
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            UserFile f = new UserFile();
-            ArrayNode array = (ArrayNode) mapper.readTree(f.file);
+
+            ArrayNode array = (ArrayNode) mapper.readTree(fileUsers.file);
 
             if(array.isArray()){
                 int index = 0;
                 for(JsonNode n : array){
-                    if(n.get("name").toString().replace("\"", "").equals(u.getName())){
+                    if(n.get("name").toString().replace("\"", "").equals(userSelected.getName())){
                         array.remove(index);
-                        System.out.println("Utilisateur " + u.getName() + " a été supprimé.");
+                        System.out.println("Utilisateur " + userSelected.getName() + " a été supprimé.");
                         break;
                     }
                     index++;
                 }
-                mapper.writeValue(f.file, array);
+                mapper.writeValue(fileUsers.file, array);
             }
+
+
+            deleteUserInListUsers(userSelected);
+            deleteDataFile(userSelected);
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
-    public boolean checkDuplicateUser(String username) throws IOException{
-        UserFile f = new UserFile();
-        String fileString = "";
-        fileString = f.fileToString();
+    private void deleteUserInListUsers(User userSelected) {
+        int i=0;
+        for(User user : usersList){
+            if(user.getName().equals(userSelected.getName())){
+                Session.getInstance().getUserManager().usersList.remove(i);
+                break;
+            }
+            i++;
+        }
+    }
 
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode nodeArray = mapper.readTree(fileString);
+    public boolean checkDuplicateUser(String username){
 
-        if(nodeArray.isArray()){
-            for(JsonNode n : nodeArray){
-                if(n.get("name").toString().replace("\"", "").equals(username)){
-                    System.out.println("Utilisateur " + username + " déjà existant.");
-                    return true;
-                }
+        for (User user : usersList) {
+            if (user.getName().equals(username)) {
+                return true;
             }
         }
         return false;
     }
 
-    public ObjectNode javaToJson(User u){
+    public ObjectNode javaToJson(User userToConvert){
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         ObjectNode user = mapper.createObjectNode();
 
-        user.put("name", u.getName());
-        user.put("password", u.password.getPassword());
-        user.put("email", u.getEmail());
+        user.put("name", userToConvert.getName());
+        user.put("password", userToConvert.password.getPassword());
+        user.put("email", userToConvert.getEmail());
 
         return user;
     }
 
-    public void jsonToJava(JsonNode node){
+    public User jsonToJava(JsonNode node){
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+            Password password = new Password(
+                    node.get("password").toString().replace("\"", ""),
+                    null,
+                    true
+            );
+
+            User user = new User(
+                    node.get("name").toString().replace("\"", ""),
+                    password,
+                    node.get("email").toString().replace("\"", ""),
+                    new ArrayList<Site>()
+            );
+
+            return user;
+
+        }catch(Exception e){
+            System.out.println("Attention fichier texte de configuration corrompue!");
+        }
+
+        return null;
+    }
+
+
+    public boolean login(ArrayList<String> ArrayInputs) {
+
+        for (User user : usersList) {
+            if (user.getName().equals(ArrayInputs.get(0))) {
+                if (user.getPassword().getPassword().equals(ArrayInputs.get(1))) {
+                    Session.getInstance().setCurrentUser(user);
+                    return true;
+                }
+            }
+        }
+
+        System.out.println("Echec de connexion.");
+        return false;
+    }
+
+
+    public void creatDataFile(User newUser){
+        String username = newUser.getName().substring(0, 1).toUpperCase() + newUser.getName().substring(1);
+        try{
+            File newDataFile = new File("src\\fr\\esgi\\java\\passwordmanager\\json\\"+username+"Data.json").getAbsoluteFile();
+            newDataFile.createNewFile();
+            PrintWriter writer = new PrintWriter(newDataFile.getAbsoluteFile(), "UTF-8");
+            writer.println("[]");
+            writer.close();
+        }catch(Exception e){
+            System.out.println("Impossible d'écrire dans le dossier d'utilisateurs.");
+        }
+    }
+
+    public void deleteDataFile(User userSelected){
+        String username = userSelected.getName().substring(0, 1).toUpperCase() + userSelected.getName().substring(1);
+
+        try{
+            File newDataFile = new File("src\\fr\\esgi\\java\\passwordmanager\\json\\"+username+"Data.json").getAbsoluteFile();
+            newDataFile.delete();
+        }catch(Exception e){
+            System.out.println("Impossible d'effacer le fichier utilisateur dans le dossier d'utilisateurs.");
+        }
+    }
+
+    public boolean addUser(ArrayList<String> inputsForm) {
+
+        if(!emailValidity(inputsForm.get(3))){
+            System.out.println("Email invalide.");
+            return false;
+        }
+
+        if(checkDuplicateUser(inputsForm.get(0))){
+            System.out.println("Utilisateur deja existant.");
+            return false;
+        }
+
+        if(!inputsForm.get(1).equals(inputsForm.get(2))){
+            System.out.println("Mdp et mdp de confimation different.");
+            return false;
+        }else if(!creatUser(inputsForm)){
+            System.out.println("Probleme dans la creation de l'utilisateur.");
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean creatUser(ArrayList<String> inputsForm) {
+
+        Password password = new Password(inputsForm.get(1),null,true);
+        User newUser = new User(inputsForm.get(0),password,inputsForm.get(3),null);
+
+        insertUser(newUser);
+        Session.getInstance().getUserManager().usersList.add(newUser);
+
+        return true;
+    }
+
+    private boolean emailValidity(String email) {
+        EmailValidator validator = EmailValidator.getInstance();
+
+        // check for valid email addresses using isValid method
+        return validator.isValid(email);
 
     }
+
+    public boolean modificationPassword(ArrayList<String> listInputs) {
+
+        if(!listInputs.get(2).equals(listInputs.get(3))) {
+            System.out.println("Nouveau mdp et mdp de confimation different.");
+            return false;
+        }
+
+        int i=0;
+        for (User user : usersList) {
+            if (user.getName().equals(listInputs.get(0))) {
+                if (user.getPassword().getPassword().equals(listInputs.get(1))) {
+                    user.getPassword().setPassword(listInputs.get(2));
+                    replaceUser(user);
+                    return true;
+                }
+            }
+            i++;
+        }
+        System.out.println("L'utilisateur ou le mdp sont faux.");
+
+        return false;
+    }
+
+    public void replaceUser(User userSelected){
+        try {
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+            ArrayNode array = (ArrayNode) mapper.readTree(fileUsers.file);
+
+            if(array.isArray()){
+                int index = 0;
+                for(JsonNode n : array){
+                    if(n.get("name").toString().replace("\"", "").equals(userSelected.getName())){
+                        array.remove(index);
+                        ObjectNode user = javaToJson(userSelected);
+                        array.add(user);
+                        System.out.println("Le mdp de l'utilisateur " + userSelected.getName() + " a été modifie.");
+                        break;
+                    }
+                    index++;
+                }
+                mapper.writeValue(fileUsers.file, array);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

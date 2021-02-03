@@ -1,8 +1,10 @@
 package fr.esgi.java.passwordmanager.display.actions;
 
 import fr.esgi.java.passwordmanager.display.menu.model.Form;
+import fr.esgi.java.passwordmanager.managers.InputType;
 import fr.esgi.java.passwordmanager.managers.SiteManager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -23,7 +25,7 @@ public class AddSiteAction implements IAction {
         creatSiteForm.getInstructionsForm().add("Nombre de characteres speciaux");
         creatSiteForm.getInstructionsForm().add("Nombre de chiffres");
         creatSiteForm.getInstructionsForm().add("Saisissez l'identifiant du site");
-        creatSiteForm.getInstructionsForm().add("Voulez-vous generer votre mdp automatiquement y/n");
+        creatSiteForm.getInstructionsForm().add("Voulez-vous generer votre mdp vous meme y/n");
         creatSiteForm.getInstructionsForm().add("Saisissez le mdp");
         creatSiteForm.getInstructionsForm().add("Voulez-vous ajouter des metadonnees y/n");
         creatSiteForm.getInstructionsForm().add("Ajout commentaires ");
@@ -33,72 +35,56 @@ public class AddSiteAction implements IAction {
         List<Integer> tmpCursorList = Arrays.asList(0, 5, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0);
         creatSiteForm.getCursor().addAll(tmpCursorList);
 
+        List<InputType> tmpInputsList = Arrays.asList(InputType.NAME,InputType.YESNO,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NAME,InputType.YESNO,InputType.PASSWORD,InputType.YESNO,InputType.COM,InputType.YESNO,InputType.DURATION);
+        creatSiteForm.getTypeInputs().addAll(tmpInputsList);
+
     }
 
     public boolean run() {
 
         launchForm();
 
-        // Envoie la liste d'inputs ("creatSiteForm.getInputsForm()") à SiteManager exemple :
         SiteManager siteManager = new SiteManager();
-        boolean feedBackAction = siteManager.insertSite(creatSiteForm.getInputsForm());
-
-        //FORMAT de la liste d'inputs : ["nom site","personnalisation contraintes y/n","Longueur mdp","majuscule","minuscule","char spé","chiffre","id Site", "personnalisation mdp y/n","mdp","personnalisation metaDonnee","commentaire","personnalisation rappel","duree (XXj/XXm/XXy)"]
-        // Tu peux aussi voir les champs affichés juste au-dessus dans la fonction AddSiteAction() (constructeur de cette classe.)
-        //tu recois tj un petit "y" ou un petit "n" pour les confirmations ou personalisation ex : [nomSite, n, null, null, null, null, null, idSite, y, mdpPerso, n, null, n, null]
-
+        boolean feedBackAction = siteManager.addSite(creatSiteForm.getInputsForm());
 
         creatSiteForm.emptyList();
-        return true; //return feedBackAction
+        return feedBackAction;
     }
 
     @Override
     public void launchForm() {
 
         Scanner scanner = new Scanner(System.in);
+        String tmpInput;
         System.out.println("\n" + creatSiteForm.getTitle() + "\n");
 
         for (int i = 0; i < numberInput; i++) {
+
             System.out.print(creatSiteForm.getInstructionsForm().get(i) + " : ");
 
             if (creatSiteForm.getCursor().get(i) != 0) {
-
-                checkYesOrNoQuestion(scanner, i);
+                if(!creatSiteForm.checkYesOrNoQuestion(scanner, i)) {
+                    i += creatSiteForm.getCursor().get(i);
+                }
             } else {
-                creatSiteForm.getInputsForm().add(scanner.nextLine());
+
+                tmpInput = creatSiteForm.checkIfInputIsEmpty(i,scanner,scanner.nextLine());
+
+                if(creatSiteForm.getTypeInputs().get(i).equals(InputType.NUM)){
+
+                    tmpInput = creatSiteForm.checkIfInputIsNumber(i,scanner,tmpInput);
+
+                }else if(creatSiteForm.getTypeInputs().get(i).equals(InputType.DURATION)){
+
+                    tmpInput = creatSiteForm.checkIfInputIsDuration(i,scanner,tmpInput);
+
+                }
+
+                creatSiteForm.getInputsForm().add(tmpInput);
             }
         }
         System.out.println("\n");
     }
-
-
-    public void checkYesOrNoQuestion(Scanner scanner, int index) {
-
-        String tmpInput;
-
-        do {
-
-            tmpInput = scanner.nextLine();
-
-            if (tmpInput.length() > 0) {
-                tmpInput = tmpInput.substring(0, 1).toLowerCase();
-            } else {
-                tmpInput = "error";
-                tmpInput = tmpInput.substring(0, 1).toLowerCase();
-            }
-
-            if (tmpInput.equals("y")) {
-                creatSiteForm.getInputsForm().add(tmpInput);
-            } else if (tmpInput.equals("n")) {
-                creatSiteForm.getInputsForm().add(tmpInput);
-                creatSiteForm.fillInputFormArrayListWhitNAValues(creatSiteForm.getCursor().get(index));
-                index += creatSiteForm.getCursor().get(index);
-            } else {
-                System.out.print(creatSiteForm.getInstructionsForm().get(index) + " : ");
-            }
-        } while (!tmpInput.equals("y") && !tmpInput.equals("n"));
-    }
-
 
 }
 

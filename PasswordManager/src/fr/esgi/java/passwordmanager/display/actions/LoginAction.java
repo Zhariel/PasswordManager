@@ -2,6 +2,7 @@ package fr.esgi.java.passwordmanager.display.actions;
 
 import fr.esgi.java.passwordmanager.Session;
 import fr.esgi.java.passwordmanager.display.menu.model.Form;
+import fr.esgi.java.passwordmanager.managers.UserManager;
 import fr.esgi.java.passwordmanager.models.User;
 
 import java.util.Scanner;
@@ -20,16 +21,10 @@ public class LoginAction implements IAction {
     @Override
     public boolean run() {
         launchForm();
-        // Envoie la liste d'inputs ("loginForm.getInputsForm()") à login exemple :
-        // SiteManager siteManager = new SiteManager();
-        // boolean feedBackAction = siteManager->login(loginForm.getInputsForm());
-        //FORMAT de la liste d'inputs : ["id utilisateur", "mdp"]
-        //Tu peux aussi voir les champs affichés juste au-dessus dans la fonction loginAction() (constructeur de cette classe.)
+        boolean feedBackAction = Session.getInstance().getUserManager().login(loginForm.getInputsForm());
 
-        User us = new User();
-        Session.getInstace().setCurrentUser(us);
-        return true; // return feedBackAction
-
+        loginForm.emptyList();
+        return feedBackAction;
     }
 
     @Override
