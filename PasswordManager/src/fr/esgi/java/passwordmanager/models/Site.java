@@ -1,11 +1,9 @@
 package fr.esgi.java.passwordmanager.models;
 
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class Site {
     private String name;
@@ -35,10 +33,12 @@ public class Site {
             this.constraint = new Constraint(); //default constructor set values total : 8, Upper : 1, lower : 1, speChar : 1, digit : 1, letters : 4
         }
 
+        //User chooses to entry a password (entry yes)
         if(listInputsFormCreatSite.get(8).equals("y")){
             this.password = new Password(listInputsFormCreatSite.get(9),this.constraint,false);
         }else{
-            this.password = new Password(null,this.constraint,false);
+            //Application generates the password.
+            this.password = new Password(this.constraint,false);
         }
 
         LocalDate date = LocalDate.now();
@@ -55,9 +55,7 @@ public class Site {
     }
 
 
-    public String getPassword() {
-        return password.getPassword();
-    }
+    public String getPassword() { return password.getPassword(); }
 
     public void setPassword(String newPassword) {
         this.password.setPassword(newPassword);

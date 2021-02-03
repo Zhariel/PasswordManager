@@ -13,7 +13,7 @@ public class DeleteUserAction implements IAction {
     public DeleteUserAction(){
         deleteUserForm = new Form("Suppression d'un utilisateur");
         deleteUserForm.getInstructionsForm().add("Nom de l'utilisateur a supprimer");
-        deleteUserForm.getInstructionsForm().add("Son mdp");
+        deleteUserForm.getInstructionsForm().add("Saisissez le mdp de l'utilisateur a supprimer.");
 
     }
 

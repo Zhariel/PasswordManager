@@ -165,7 +165,6 @@ public class UserManager {
 
             Password password = new Password(
                     node.get("password").toString().replace("\"", ""),
-                    null,
                     true
             );
 
