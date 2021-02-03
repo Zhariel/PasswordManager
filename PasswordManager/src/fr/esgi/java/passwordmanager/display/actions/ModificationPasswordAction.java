@@ -20,7 +20,7 @@ public class ModificationPasswordAction implements IAction {
     public boolean run() {
         launchForm();
 
-        boolean feedBackAction = Session.getInstance().getUserManager().modificationPassword(modificationPasswordForm.getInputsForm());
+        boolean feedBackAction = Session.getInstance().getInstanceUserManager().modificationPassword(modificationPasswordForm.getInputsForm());
 
         modificationPasswordForm.emptyList();
         return feedBackAction;

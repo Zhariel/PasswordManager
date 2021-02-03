@@ -127,7 +127,7 @@ public class UserManager {
         int i=0;
         for(User user : usersList){
             if(user.getName().equals(userSelected.getName())){
-                Session.getInstance().getUserManager().usersList.remove(i);
+                Session.getInstance().getInstanceUserManager().usersList.remove(i);
                 break;
             }
             i++;
@@ -255,7 +255,7 @@ public class UserManager {
         User newUser = new User(inputsForm.get(0),password,inputsForm.get(3));
 
         insertUser(newUser);
-        Session.getInstance().getUserManager().usersList.add(newUser);
+        Session.getInstance().getInstanceUserManager().usersList.add(newUser);
 
         return true;
     }

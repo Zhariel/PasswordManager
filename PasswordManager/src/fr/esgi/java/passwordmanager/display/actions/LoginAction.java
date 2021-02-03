@@ -2,8 +2,6 @@ package fr.esgi.java.passwordmanager.display.actions;
 
 import fr.esgi.java.passwordmanager.Session;
 import fr.esgi.java.passwordmanager.display.menu.model.Form;
-import fr.esgi.java.passwordmanager.managers.UserManager;
-import fr.esgi.java.passwordmanager.models.User;
 
 import java.util.Scanner;
 
@@ -21,7 +19,7 @@ public class LoginAction implements IAction {
     @Override
     public boolean run() {
         launchForm();
-        boolean feedBackAction = Session.getInstance().getUserManager().login(loginForm.getInputsForm());
+        boolean feedBackAction = Session.getInstance().getInstanceUserManager().login(loginForm.getInputsForm());
 
         loginForm.emptyList();
         return feedBackAction;

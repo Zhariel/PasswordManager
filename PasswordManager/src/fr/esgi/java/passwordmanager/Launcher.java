@@ -5,6 +5,14 @@ import fr.esgi.java.passwordmanager.display.menu.DisplayManager;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**PasswordManager Application
+ * @author : Clara Florac
+ * @author : Romain Blazevic
+ * @author : Joel Chep
+ * Date : 03/02/2021
+ * Manager of passwords for private User.
+ * */
+
 public class Launcher {
 
 

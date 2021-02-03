@@ -3,6 +3,7 @@ package fr.esgi.java.passwordmanager.models;
 import java.util.ArrayList;
 import java.util.List;
 public class User {
+
     private String name;
     public Password password;
     private String email;
@@ -20,6 +21,14 @@ public class User {
         this.password = password;
         this.email = email;
         this.listSites = listSites;
+    }
+
+    public void removeSiteOnListSites(int index){
+        this.listSites.remove(index);
+    }
+
+    public void addSiteOnListSites(Site newSite) {
+        this.listSites.add(newSite);
     }
 
     public String getName() {
@@ -60,4 +69,6 @@ public class User {
     public void setListSites(List<Site> listSites) {
         this.listSites = listSites;
     }
+
+
 }

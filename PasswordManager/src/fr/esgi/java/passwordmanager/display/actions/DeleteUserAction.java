@@ -2,8 +2,6 @@ package fr.esgi.java.passwordmanager.display.actions;
 
 import fr.esgi.java.passwordmanager.Session;
 import fr.esgi.java.passwordmanager.display.menu.model.Form;
-import fr.esgi.java.passwordmanager.managers.SiteManager;
-import fr.esgi.java.passwordmanager.managers.UserManager;
 
 import java.util.Scanner;
 
@@ -22,7 +20,7 @@ public class DeleteUserAction implements IAction {
     @Override
     public boolean run() {
         launchForm();
-        boolean feedBackAction = Session.getInstance().getUserManager().initDeleteUser(deleteUserForm.getInputsForm());
+        boolean feedBackAction = Session.getInstance().getInstanceUserManager().initDeleteUser(deleteUserForm.getInputsForm());
 
         deleteUserForm.emptyList();
         return feedBackAction;

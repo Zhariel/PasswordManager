@@ -9,7 +9,7 @@ public class LogoutAction implements IAction {
 
     public boolean run() {
 
-        Session.getInstance().setCurrentUser(null);
+        Session.getInstance().logOut();
         return true;
     }
 

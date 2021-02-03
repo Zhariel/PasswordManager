@@ -37,7 +37,7 @@ public class SiteManager {
 
         Site newSite;
 
-        //First creat Site.
+        //First : Creat Site.
         try {
             newSite = new Site(listInputs);
         } catch (Exception e) {
@@ -46,11 +46,18 @@ public class SiteManager {
         }
 
         //Second : InsertSite
-        return insertSite(newSite);
+        if(!insertSiteInFileData(newSite)){
+            return false;
+        }
+
+        // Thrid : Insert Site In the listSite of currentUser.
+        Session.getInstance().callAddSiteOnListSites(newSite);
+
+        return true;
     }
 
 
-    public boolean insertSite(Site s) {
+    public boolean insertSiteInFileData(Site s) {
         try {
 
             if (checkDuplicateSite(s.getName())) {
@@ -72,11 +79,10 @@ public class SiteManager {
             return false;
         }
 
-        Session.getInstance().getCurrentUser().listSites.add(s);
         return true;
     }
 
-    public void deleteSite(Site s) {
+    public void deleteSiteInFileData(Site s) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -229,8 +235,9 @@ public class SiteManager {
             int i = 0;
             for (Site site : Session.getInstance().getCurrentUser().getListSites()) {
                 if (site.getName().equals(inputsForm.get(0))) {
-                    deleteSite(site);
-                    Session.getInstance().getCurrentUser().getListSites().remove(i);
+                    deleteSiteInFileData(site);
+                    //Remove site from listSites of currentUser. Function removeSiteOnListSites come from User class.
+                    Session.getInstance().callRemoveSiteOnListSites(i);
                     return true;
                 }
                 i++;
@@ -250,18 +257,19 @@ public class SiteManager {
             System.out.println("Site non trouve.");
             return false;
         }
-        deleteSite(siteSelected);
-        removeSiteToListSites(siteSelected);
-        addSite(inputsForm);
+        deleteSiteInFileData(siteSelected);
+        removeSiteToListSites(siteSelected); //Remove of curentUser's listSites
+        addSite(inputsForm); // Add in file and currentUser's listSites
 
         return true;
     }
+
 
     private void removeSiteToListSites(Site siteSelected) {
         int i = 0;
         for (Site site : Session.getInstance().getCurrentUser().getListSites()) {
             if (site.getName().equals(siteSelected.getName())) {
-                Session.getInstance().getCurrentUser().getListSites().remove(i);
+                Session.getInstance().callRemoveSiteOnListSites(i);
                 return;
             }
             i++;
