@@ -6,8 +6,11 @@ import java.util.LinkedHashMap;
 
 
 /**
- * Class Menu : Pattern of menu.
+ * Class Menu
+ * Super class
+ * Pattern of menu.
  */
+
 public class Menu {
 
     public static final String instruction = "Veuillez saisir le numero de l'option que vous souhaitez effectuer";
@@ -15,9 +18,8 @@ public class Menu {
     public String type;
     public LinkedHashMap<String, IAction> actionsMap;
 
-
     /**
-     * Insert an action related to this (menu object).
+     * Insert an action related to an instruction.
      *
      * @param name   String displayed in Menu corresponding to option menu (named action in code).
      * @param action Class action bind to the option menu.
@@ -38,7 +40,4 @@ public class Menu {
         return type;
     }
 
-    public LinkedHashMap<String, IAction> getActionsMap() {
-        return actionsMap;
-    }
 }

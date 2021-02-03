@@ -3,13 +3,12 @@ package fr.esgi.java.passwordmanager.display.menu.model;
 import fr.esgi.java.passwordmanager.managers.InputType;
 
 import java.util.*;
-import java.util.concurrent.SynchronousQueue;
-
 
 /**
  * Class Form
  * Contain the skeleton of forms displayed
  */
+
 public class Form {
     private String title;
     private ArrayList<String> instructionsForm;
@@ -26,7 +25,6 @@ public class Form {
 
     /**
      * Constructor
-     *
      * @param title : title of the form
      */
     public Form(String title) {
@@ -37,26 +35,43 @@ public class Form {
         this.typeInputs= new ArrayList<InputType>();
     }
 
+    public static boolean isInterger(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int integer = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
     public ArrayList<String> getInputsForm() {
-        return inputsForm;
+
+        return new ArrayList<>(this.inputsForm);
     }
 
     public ArrayList<String> getInstructionsForm() {
-        return instructionsForm;
+
+        return  new ArrayList<>(this.instructionsForm);
     }
 
     public ArrayList<Integer> getCursor() {
-        return cursor;
+
+        return new ArrayList<>(this.cursor);
     }
 
-    public ArrayList<InputType> getTypeInputs() { return typeInputs; }
+    public ArrayList<InputType> getTypeInputs() {
+
+        return new ArrayList<>(this.typeInputs);
+    }
 
     public String getTitle() {
         return title;
     }
 
-    /**
-     * fillInputFormArrayListWhitNAValues
+    /**Function fillInputFormArrayListWhitNAValues
      *
      * @param numberCursor : number of inputs not displayed because user has choosen NO for a No/Yes Question in a form.
      * This inputs jumped are fill with null in the ArrayList instructionsForm
@@ -68,15 +83,16 @@ public class Form {
         }
     }
 
-    /**
-     * emptyList
+    /**Function emptyList
      * Clear the inputsForm for a futur new entry
      */
     public void emptyList() {
         inputsForm.clear();
     }
 
-
+    /**Function checkYesOrNoQuestion
+     *If a yes/no question is read, this function check if the user had entry y or n.
+     * **/
     public boolean checkYesOrNoQuestion(Scanner scanner, int index) {
 
         String tmpInput;
@@ -138,11 +154,6 @@ public class Form {
 
     }
 
-    public String checkIfInputIsEmail(int index, Scanner scanner, String tmpInput){
-
-        return null;
-    }
-
     public String checkIfInputIsDuration(int index, Scanner scanner, String tmpInput){
 
         String currentInput = tmpInput;
@@ -186,21 +197,9 @@ public class Form {
         return currentInput;
     }
 
-    public static boolean isInterger(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-        try {
-            int integer = Integer.parseInt(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
     public boolean isDate(String currentInput){
 
-        //(XXj/XXm/XXy)
+        //Format duration : (XXj/XXm/XXy)
 
         if(currentInput.charAt(3)!='/' ||currentInput.charAt(7)!='/'){
             return false;

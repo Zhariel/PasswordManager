@@ -10,9 +10,11 @@ import fr.esgi.java.passwordmanager.models.Site;
 import java.util.ArrayList;
 import java.util.List;
 
-/**Class DisplayManager
+
+/**
+ * Class DisplayManager
  * Manage the output of this application
- * */
+ */
 public class DisplayManager {
 
     private Menu currentMenu;
@@ -28,27 +30,33 @@ public class DisplayManager {
         return currentMenu;
     }
 
-    /**launchMenu
+    /**
+     * launchMenu
+     *
      * @param type : Main or User. Corresplonding to Enum in the file MenuType
-     * Call the menu factory
-     * */
+     *             Call the menu factory
+     */
     public void launchMenu(String type) {
         MenuFactory factory = new MenuFactory();
         currentMenu = factory.getMenu(type);
         displayMenu(currentMenu);
     }
 
-    /**displayMenu
+    /**
+     * displayMenu
+     *
      * @param currentMenu : the current menu diplayed
-     * Display menu options
+     *                    Display menu options
      */
     public void displayMenu(Menu currentMenu) {
         System.out.println(generateTextOfMenu(currentMenu));
     }
 
-    /**generateTextOfMenu
+    /**
+     * generateTextOfMenu
+     *
      * @param currentMenu : the current menu diplayed
-     * Generate menu's strings.
+     *                    Generate menu's strings.
      * @return String : Contain all the menu text.
      */
     private String generateTextOfMenu(Menu currentMenu) {
@@ -62,9 +70,11 @@ public class DisplayManager {
         return sb.toString();
     }
 
-    /**executeAction
+    /**
+     * executeAction
+     *
      * @param actionNumber : index of the option menu
-     * launche the action binding at this option menu selected.
+     *                     launche the action binding at this option menu selected.
      * @return boolean : feedback of the process.
      */
     public boolean executeAction(int actionNumber) {
@@ -86,10 +96,12 @@ public class DisplayManager {
     }
 
 
-    /**updateMenu
-     * @param actionNumber : index of the option menu
+    /**
+     * updateMenu
+     *
+     * @param actionNumber   : index of the option menu
      * @param feedBackAction : boolean : feedback of the process.
-     * Switch the type of curent menu where login ou logout are succed.
+     *                       Switch the type of curent menu where login ou logout are succed.
      */
 
     public void updateMenu(boolean feedBackAction, int actionNumber) {
@@ -116,8 +128,8 @@ public class DisplayManager {
 
     public void displayListSite() {
 
-        int nbSites = Session.getInstance().getCurrentUser(). getListSites().size();
-        System.out.println(nbSites+" sites sont enregistes.");
+        int nbSites = Session.getInstance().getCurrentUser().getListSites().size();
+        System.out.println(nbSites + " sites sont enregistes.");
 
         for (int i = 0; i < nbSites; i++) {
             System.out.println(Session.getInstance().getCurrentUser().getListSites().get(i).getName());
@@ -133,7 +145,7 @@ public class DisplayManager {
         }
 
         SiteManager siteManager = new SiteManager();
-        Site targetSite= siteManager.findSiteInListSites(displayOneSiteForm.getInputsForm().get(0));
+        Site targetSite = siteManager.findSiteInListSites(displayOneSiteForm.getInputsForm().get(0));
 
         if (targetSite == null) {
             System.out.println("Ce site n'est pas present dans votre base de donnees.");
