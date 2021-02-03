@@ -1,5 +1,10 @@
 package fr.esgi.java.passwordmanager.models;
 
+import jdk.nashorn.internal.runtime.regexp.joni.ast.StringNode;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,7 +60,7 @@ public class Password {
      * This constructor is uses when user want application generates a password.
      **/
 
-    public Password(Constraint constraints, boolean master) {
+    public Password(Constraint constraints, boolean master){
 
         initCharSpecialArray();
         this.master = master;
@@ -63,6 +68,17 @@ public class Password {
             constraints.resetConstraints();
         }
         this.password = creatPassword(constraints);
+    }
+
+    public String hash(String mdp) throws NoSuchAlgorithmException {
+        String newhash = "";
+
+        MessageDigest md = MessageDigest.getInstance("MD5");
+
+        md.update(mdp.getBytes());
+        byte[] digest = md.digest();
+
+        return new String(digest, StandardCharsets.UTF_8);
     }
 
 
