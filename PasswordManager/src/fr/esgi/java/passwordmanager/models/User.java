@@ -1,17 +1,25 @@
 package fr.esgi.java.passwordmanager.models;
 
+import java.util.ArrayList;
 import java.util.List;
 public class User {
     private String name;
     public Password password;
     private String email;
-    public List<Site> ListSites;
+    public List<Site> listSites;
 
-    public User(String name, Password password, String email, List<Site> ListSites) {
+    public User(String name, Password password, String email) {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.ListSites = ListSites;
+        this.listSites = new ArrayList<>();
+    }
+
+    public User(String name, Password password, String email,List<Site> listSites) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.listSites = listSites;
     }
 
     public String getName() {
@@ -23,7 +31,10 @@ public class User {
     }
 
     public Password getPassword() {
-        return password;
+
+        Password tmpPassword = new Password(this.password.getPassword(),this.password.getMaster());
+
+        return tmpPassword;
     }
 
     public void setPassword(Password password) {
@@ -39,10 +50,14 @@ public class User {
     }
 
     public List<Site> getListSites() {
-        return ListSites;
+
+        ArrayList<Site> tmpListSites = new ArrayList<>();
+        tmpListSites.addAll(this.listSites);
+
+        return listSites;
     }
 
     public void setListSites(List<Site> listSites) {
-        ListSites = listSites;
+        this.listSites = listSites;
     }
 }

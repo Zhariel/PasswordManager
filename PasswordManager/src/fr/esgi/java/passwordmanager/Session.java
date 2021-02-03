@@ -34,8 +34,8 @@ public class Session {
         if(currUser==null){
             currentUser=null;
         }else {
-            Password password = new Password(currUser.getPassword().getPassword(), null, true);
-            this.currentUser = new User(currUser.getName(), password, currUser.getEmail(), null);
+            Password password = new Password(currUser.getPassword().getPassword(),true);
+            this.currentUser = new User(currUser.getName(), password, currUser.getEmail());
 
             SiteManager siteManager = new SiteManager();
             ArrayList<Site> tmpListSites = siteManager.creatListSites();

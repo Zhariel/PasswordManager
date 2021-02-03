@@ -12,7 +12,7 @@ public class Password {
 
     private String password;
     private boolean master;
-    private static final int key =13;
+    private static final int KEY =13;
     private ArrayList<Character> charSpecial;
 
     public Password(String password,Constraint constraints, boolean master) {
@@ -39,6 +39,10 @@ public class Password {
         initCharSpecialArray();
         this.master = master;
         this.password = password;
+    }
+
+    public boolean getMaster(){
+        return this.master;
     }
 
     public void initCharSpecialArray(){
@@ -122,13 +126,13 @@ public class Password {
         for(int i=0;i<password.length();i++){
 
             if(charSpecial.contains(password.charAt(i))){
-                encrypt.append(charSpecial.get((charSpecial.indexOf(password.charAt(i)) +key)% charSpecial.size()));
+                encrypt.append(charSpecial.get((charSpecial.indexOf(password.charAt(i)) + KEY)% charSpecial.size()));
             }else if(isLowerCase(password.charAt(i)) || isUpperCase(password.charAt(i)) ){
                 ascii = (int)password.charAt(i);
-                ascii = (ascii +key)%26;
+                ascii = (ascii + KEY)%26;
                 encrypt.append((char)ascii);
             }else if(isInterger(password.charAt(i))){
-                ascii = (Integer.parseInt(String.valueOf((password.charAt(i)))+key)%10);
+                ascii = (Integer.parseInt(String.valueOf((password.charAt(i)))+ KEY)%10);
                 encrypt.append((char)ascii);
             }else{
                 encrypt.append(password.charAt(i));
@@ -147,13 +151,13 @@ public class Password {
         for(int i=0;i<password.length();i++){
 
             if(charSpecial.contains(password.charAt(i))){
-                decrypt.append(charSpecial.get((charSpecial.indexOf(password.charAt(i))-key)% charSpecial.size()));
+                decrypt.append(charSpecial.get((charSpecial.indexOf(password.charAt(i))- KEY)% charSpecial.size()));
             }else if(isLowerCase(password.charAt(i)) || isUpperCase(password.charAt(i)) ){
                 ascii = (int)password.charAt(i);
-                ascii = (ascii-key)%26;
+                ascii = (ascii- KEY)%26;
                 decrypt.append((char)ascii);
             }else if(isInterger(password.charAt(i))){
-                ascii = Integer.parseInt(String.valueOf((password.charAt(i)-key)%10));
+                ascii = Integer.parseInt(String.valueOf((password.charAt(i)- KEY)%10));
                 decrypt.append((char)ascii);
             }else{
                 decrypt.append(password.charAt(i));

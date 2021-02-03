@@ -13,6 +13,7 @@ public class Launcher {
         //********************
         //***Initialization***
         //********************
+
         System.out.println("\nBienvenue !\n");
         DisplayManager entry = new DisplayManager(true);
         Scanner scanner = new Scanner(System.in);
@@ -31,11 +32,10 @@ public class Launcher {
                 boolean feedBBack = entry.executeAction(actionNumber);
                 entry.updateMenu(feedBBack, actionNumber);
 
-
             } catch (InputMismatchException ec) {
 
                 System.out.println("Veuillez entrez un int");
-                scanner.nextLine();
+                scanner.nextLine(); // empty the buffer, nextInt() doesn't it when an error occurs.
 
             } catch (Exception e) {
 

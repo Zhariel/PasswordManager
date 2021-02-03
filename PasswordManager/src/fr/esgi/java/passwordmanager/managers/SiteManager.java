@@ -72,7 +72,7 @@ public class SiteManager {
             return false;
         }
 
-        Session.getInstance().getCurrentUser().ListSites.add(s);
+        Session.getInstance().getCurrentUser().listSites.add(s);
         return true;
     }
 

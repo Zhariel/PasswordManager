@@ -251,8 +251,8 @@ public class UserManager {
 
     private boolean creatUser(ArrayList<String> inputsForm) {
 
-        Password password = new Password(inputsForm.get(1),null,true);
-        User newUser = new User(inputsForm.get(0),password,inputsForm.get(3),null);
+        Password password = new Password(inputsForm.get(1),true);
+        User newUser = new User(inputsForm.get(0),password,inputsForm.get(3));
 
         insertUser(newUser);
         Session.getInstance().getUserManager().usersList.add(newUser);
