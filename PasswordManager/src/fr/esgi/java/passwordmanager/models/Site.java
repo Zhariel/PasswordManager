@@ -32,7 +32,7 @@ public class Site {
         if(listInputsFormCreatSite.get(1).equals("y")){
             this.constraint = new Constraint(listInputsFormCreatSite.subList(2,7));
         }else{
-            this.constraint = new Constraint(8,1,1,4,1,1);
+            this.constraint = new Constraint(); //default constructor set values total : 8, Upper : 1, lower : 1, speChar : 1, digit : 1, letters : 4
         }
 
         if(listInputsFormCreatSite.get(8).equals("y")){
