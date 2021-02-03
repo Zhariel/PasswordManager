@@ -2,6 +2,12 @@ package fr.esgi.java.passwordmanager.models;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
+/** Class User
+ * Contains informations about user : name,password, email anf listSites.
+ **/
+
 public class User {
 
     private String name;
@@ -9,6 +15,10 @@ public class User {
     private String email;
     public List<Site> listSites;
 
+    /**
+     * Constructor
+     * It's used when a new user is created or add to a file or a list.
+     **/
     public User(String name, Password password, String email) {
         this.name = name;
         this.password = password;
@@ -16,14 +26,18 @@ public class User {
         this.listSites = new ArrayList<>();
     }
 
-    public User(String name, Password password, String email,List<Site> listSites) {
+    /**
+     * Constructor
+     * It's used when a copy of an user is necessary
+     **/
+    public User(String name, Password password, String email, List<Site> listSites) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.listSites = listSites;
     }
 
-    public void removeSiteOnListSites(int index){
+    public void removeSiteOnListSites(int index) {
         this.listSites.remove(index);
     }
 
@@ -41,9 +55,7 @@ public class User {
 
     public Password getPassword() {
 
-        Password tmpPassword = new Password(this.password.getPassword(),this.password.getMaster());
-
-        return tmpPassword;
+        return new Password(this.password.getPassword(), this.password.getMaster());
     }
 
     public void setPassword(Password password) {
