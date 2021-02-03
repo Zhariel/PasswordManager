@@ -13,7 +13,7 @@ public class User {
     private String name;
     public Password password;
     private String email;
-    public List<Site> listSites;
+    public List<Site> sitesList;
 
     /**
      * Constructor
@@ -23,7 +23,7 @@ public class User {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.listSites = new ArrayList<>();
+        this.sitesList = new ArrayList<>();
     }
 
     /**
@@ -34,15 +34,15 @@ public class User {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.listSites = listSites;
+        this.sitesList = listSites;
     }
 
     public void removeSiteOnListSites(int index) {
-        this.listSites.remove(index);
+        this.sitesList.remove(index);
     }
 
     public void addSiteOnListSites(Site newSite) {
-        this.listSites.add(newSite);
+        this.sitesList.add(newSite);
     }
 
     public String getName() {
@@ -73,13 +73,13 @@ public class User {
     public List<Site> getListSites() {
 
         ArrayList<Site> tmpListSites = new ArrayList<>();
-        tmpListSites.addAll(this.listSites);
+        tmpListSites.addAll(this.sitesList);
 
-        return listSites;
+        return sitesList;
     }
 
     public void setListSites(List<Site> listSites) {
-        this.listSites = listSites;
+        this.sitesList = listSites;
     }
 
 
