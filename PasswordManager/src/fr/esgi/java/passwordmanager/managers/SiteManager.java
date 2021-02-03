@@ -50,7 +50,7 @@ public class SiteManager {
             return false;
         }
 
-        // Thrid : Insert Site In the listSite of currentUser.
+        // Thrid : Insert Site in the listSite of currentUser.
         Session.getInstance().callAddSiteOnListSites(newSite);
 
         return true;

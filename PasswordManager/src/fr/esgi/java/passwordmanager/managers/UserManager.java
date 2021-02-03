@@ -76,7 +76,7 @@ public class UserManager {
 
     }
 
-    public boolean initDeleteUser(ArrayList<String> listInputs){
+    public boolean deleteUser(ArrayList<String> listInputs){
         int i=0;
         for (User user : usersList) {
             if (user.getName().equals(listInputs.get(0))) {
@@ -278,14 +278,14 @@ public class UserManager {
         for (User user : usersList) {
             if (user.getName().equals(listInputs.get(0))) {
                 if (user.getPassword().getPassword().equals(listInputs.get(1))) {
-                    user.getPassword().setPassword(listInputs.get(2));
+                    user.setPassword(listInputs.get(2));
                     replaceUser(user);
                     return true;
                 }
             }
             i++;
         }
-        System.out.println("L'utilisateur ou le mdp sont faux.");
+        System.out.println("L'utilisateur ou/et le mdp sont faux.");
 
         return false;
     }

@@ -58,8 +58,8 @@ public class User {
         return new Password(this.password.getPassword(), this.password.getMaster());
     }
 
-    public void setPassword(Password password) {
-        this.password = password;
+    public void setPassword(String password) {
+        this.password.setPassword(password);
     }
 
     public String getEmail() {
@@ -72,10 +72,8 @@ public class User {
 
     public List<Site> getListSites() {
 
-        ArrayList<Site> tmpListSites = new ArrayList<>();
-        tmpListSites.addAll(this.listSites);
+        return new ArrayList<>(this.listSites);
 
-        return listSites;
     }
 
     public void setListSites(List<Site> listSites) {

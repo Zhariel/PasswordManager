@@ -12,8 +12,8 @@ public class LoginAction implements IAction {
 
     public LoginAction() {
         loginForm = new Form("\nIdentification");
-        loginForm.getInstructionsForm().add("Saisissez votre login");
-        loginForm.getInstructionsForm().add("Saisissez votre mdp");
+        loginForm.addInstructionsForm("Saisissez votre login");
+        loginForm.addInstructionsForm("Saisissez votre mdp");
     }
 
     @Override
@@ -31,10 +31,9 @@ public class LoginAction implements IAction {
         System.out.println(loginForm.getTitle() + "\n");
         for (int i = 0; i < numberInput; i++) {
             System.out.print(loginForm.getInstructionsForm().get(i) + " : ");
-            loginForm.getInputsForm().add(scanner.nextLine());
+            loginForm.addInputsForm(scanner.nextLine());
         }
         System.out.println("\n");
     }
-
 
 }

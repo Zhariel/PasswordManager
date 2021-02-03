@@ -1,1 +1,37 @@
-[{"name":"romain","password":"FmodkMO4SM","email":"romain.blazevic@gmail.com"},{"name":"joël","password":"fNd,PAZj","email":"joel.chep@gmail.com"},{"name":"clara","password":"PandQkfi2&","email":"clara.florac@gmail.com"},{"name":"Jean","password":"jeanjean.46","email":"jean@gmail.com"},{"name":"Claude","password":"cl","email":"cl@gmail.com"},{"name":"Al","password":"zl","email":"zl@gmail.com"},{"name":"CDW","password":"ph","email":"c@gmail.com"}]
+[ {
+  "name" : "romain",
+  "password" : "FmodkMO4SM",
+  "email" : "romain.blazevic@gmail.com"
+}, {
+  "name" : "joël",
+  "password" : "fNd,PAZj",
+  "email" : "joel.chep@gmail.com"
+}, {
+  "name" : "clara",
+  "password" : "PandQkfi2&",
+  "email" : "clara.florac@gmail.com"
+}, {
+  "name" : "Jean",
+  "password" : "jeanjean.46",
+  "email" : "jean@gmail.com"
+}, {
+  "name" : "Claude",
+  "password" : "cl",
+  "email" : "cl@gmail.com"
+}, {
+  "name" : "Al",
+  "password" : "zl",
+  "email" : "zl@gmail.com"
+}, {
+  "name" : "CDW",
+  "password" : "ph",
+  "email" : "c@gmail.com"
+}, {
+  "name" : "log",
+  "password" : "mdp",
+  "email" : "log@gmail.com"
+}, {
+  "name" : "test",
+  "password" : "te",
+  "email" : "t@gmail.com"
+} ]

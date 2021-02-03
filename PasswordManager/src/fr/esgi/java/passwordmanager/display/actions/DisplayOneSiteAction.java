@@ -13,7 +13,7 @@ public class DisplayOneSiteAction implements IAction {
     public DisplayOneSiteAction() {
 
         displayOneSiteForm = new Form("Affichage d'un site");
-        displayOneSiteForm.getInstructionsForm().add("Saisissez le nom du site a afficher ");
+        displayOneSiteForm.addInstructionsForm("Saisissez le nom du site a afficher ");
 
     }
 
@@ -32,7 +32,7 @@ public class DisplayOneSiteAction implements IAction {
         Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < numberInput; i++) {
             System.out.print(displayOneSiteForm.getInstructionsForm().get(i) + " : ");
-            displayOneSiteForm.getInputsForm().add(scanner.nextLine());
+            displayOneSiteForm.addInputsForm(scanner.nextLine());
         }
         System.out.println("\n");
     }

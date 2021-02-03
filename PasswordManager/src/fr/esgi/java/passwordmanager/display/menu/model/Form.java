@@ -71,6 +71,23 @@ public class Form {
         return title;
     }
 
+
+    public void addInstructionsForm(String instruction){
+        this.instructionsForm.add(instruction);
+    }
+
+    public void addInputsForm(String input){
+        this.inputsForm.add(input);
+    }
+
+    public void addTypeInputs(List<InputType> inputsList){
+        this.typeInputs.addAll(inputsList);
+    }
+
+    public void addCursor(List<Integer> listCursor){
+        this.cursor.addAll(listCursor);
+    }
+
     /**Function fillInputFormArrayListWhitNAValues
      *
      * @param numberCursor : number of inputs not displayed because user has choosen NO for a No/Yes Question in a form.
@@ -109,10 +126,10 @@ public class Form {
             }
 
             if (tmpInput.equals("y")) {
-                this.getInputsForm().add(tmpInput);
+                this.inputsForm.add(tmpInput);
                 return true;
             } else if (tmpInput.equals("n")) {
-                this.getInputsForm().add(tmpInput);
+                this.inputsForm.add(tmpInput);
                 this.fillInputFormArrayListWhitNAValues(this.getCursor().get(index));
                 return false;
             } else {

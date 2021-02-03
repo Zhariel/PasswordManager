@@ -13,10 +13,10 @@ public class CreatUserAction implements IAction {
     public CreatUserAction() {
 
         creatUserForm = new Form("Creation d'un utilisateur");
-        creatUserForm.getInstructionsForm().add("Saisissez un login");
-        creatUserForm.getInstructionsForm().add("Saisissez un mdp");
-        creatUserForm.getInstructionsForm().add("Saisissez de nouveau votre mdp");
-        creatUserForm.getInstructionsForm().add("Saisissez votre mail");
+        creatUserForm.addInstructionsForm("Saisissez un login");
+        creatUserForm.addInstructionsForm("Saisissez un mdp");
+        creatUserForm.addInstructionsForm("Saisissez de nouveau votre mdp");
+        creatUserForm.addInstructionsForm("Saisissez votre mail");
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CreatUserAction implements IAction {
 
         for(int i=0;i<numberInput;i++){
             System.out.print(creatUserForm.getInstructionsForm().get(i) +" : ");
-            creatUserForm.getInputsForm().add(scanner.nextLine());
+            creatUserForm.addInputsForm(scanner.nextLine());
         }
 
         System.out.println();

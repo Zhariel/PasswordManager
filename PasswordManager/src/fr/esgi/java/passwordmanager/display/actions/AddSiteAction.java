@@ -17,26 +17,26 @@ public class AddSiteAction implements IAction {
     public AddSiteAction() {
 
         creatSiteForm = new Form("Ajout d'un site");
-        creatSiteForm.getInstructionsForm().add("Saisissez le nom du site");
-        creatSiteForm.getInstructionsForm().add("Voulez-vous personnaliser les contraintes y/n");
-        creatSiteForm.getInstructionsForm().add("Longueur mdp");
-        creatSiteForm.getInstructionsForm().add("Nombre de majuscules");
-        creatSiteForm.getInstructionsForm().add("Nombre de minuscules");
-        creatSiteForm.getInstructionsForm().add("Nombre de characteres speciaux");
-        creatSiteForm.getInstructionsForm().add("Nombre de chiffres");
-        creatSiteForm.getInstructionsForm().add("Saisissez l'identifiant du site");
-        creatSiteForm.getInstructionsForm().add("Voulez-vous generer votre mdp vous meme y/n");
-        creatSiteForm.getInstructionsForm().add("Saisissez le mdp");
-        creatSiteForm.getInstructionsForm().add("Voulez-vous ajouter des metadonnees y/n");
-        creatSiteForm.getInstructionsForm().add("Ajout commentaires ");
-        creatSiteForm.getInstructionsForm().add("Voulez-vous un rappel y/n");
-        creatSiteForm.getInstructionsForm().add("Ajout duree avant rappel (XXj/XXm/XXy) ");
+        creatSiteForm.addInstructionsForm("Saisissez le nom du site");
+        creatSiteForm.addInstructionsForm("Voulez-vous personnaliser les contraintes y/n");
+        creatSiteForm.addInstructionsForm("Longueur mdp");
+        creatSiteForm.addInstructionsForm("Nombre de majuscules");
+        creatSiteForm.addInstructionsForm("Nombre de minuscules");
+        creatSiteForm.addInstructionsForm("Nombre de characteres speciaux");
+        creatSiteForm.addInstructionsForm("Nombre de chiffres");
+        creatSiteForm.addInstructionsForm("Saisissez l'identifiant du site");
+        creatSiteForm.addInstructionsForm("Voulez-vous generer votre mdp vous meme y/n");
+        creatSiteForm.addInstructionsForm("Saisissez le mdp");
+        creatSiteForm.addInstructionsForm("Voulez-vous ajouter des metadonnees y/n");
+        creatSiteForm.addInstructionsForm("Ajout commentaires ");
+        creatSiteForm.addInstructionsForm("Voulez-vous un rappel y/n");
+        creatSiteForm.addInstructionsForm("Ajout duree avant rappel (XXj/XXm/XXy) ");
 
         List<Integer> tmpCursorList = Arrays.asList(0, 5, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0);
-        creatSiteForm.getCursor().addAll(tmpCursorList);
+        creatSiteForm.addCursor(tmpCursorList);
 
         List<InputType> tmpInputsList = Arrays.asList(InputType.NAME,InputType.YESNO,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NAME,InputType.YESNO,InputType.PASSWORD,InputType.YESNO,InputType.COM,InputType.YESNO,InputType.DURATION);
-        creatSiteForm.getTypeInputs().addAll(tmpInputsList);
+        creatSiteForm.addTypeInputs(tmpInputsList);
 
     }
 
@@ -80,7 +80,7 @@ public class AddSiteAction implements IAction {
 
                 }
 
-                creatSiteForm.getInputsForm().add(tmpInput);
+                creatSiteForm.addInputsForm(tmpInput);
             }
         }
         System.out.println("\n");

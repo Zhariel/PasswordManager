@@ -16,26 +16,26 @@ public class ModificationSiteAction implements IAction {
     public ModificationSiteAction() {
 
         modificationSiteForm = new Form("Modification d'un site");
-        modificationSiteForm.getInstructionsForm().add("Saisissez le nom du site");
-        modificationSiteForm.getInstructionsForm().add("Voulez-vous personnaliser les contraintes y/n");
-        modificationSiteForm.getInstructionsForm().add("Longueur mdp");
-        modificationSiteForm.getInstructionsForm().add("Nombre de majuscules");
-        modificationSiteForm.getInstructionsForm().add("Nombre de minuscules");
-        modificationSiteForm.getInstructionsForm().add("Nombre de characteres speciaux");
-        modificationSiteForm.getInstructionsForm().add("Nombre de chiffres");
-        modificationSiteForm.getInstructionsForm().add("Saisissez l'identifiant du site");
-        modificationSiteForm.getInstructionsForm().add("Voulez-vous generer votre mdp automatiquement y/n");
-        modificationSiteForm.getInstructionsForm().add("Saisissez le mdp");
-        modificationSiteForm.getInstructionsForm().add("Voulez-vous ajouter des metadonnees y/n");
-        modificationSiteForm.getInstructionsForm().add("Ajout commentaires ");
-        modificationSiteForm.getInstructionsForm().add("Voulez-vous un rappel y/n");
-        modificationSiteForm.getInstructionsForm().add("Ajout duree avant rappel (XXj/XXm/XXy) ");
+        modificationSiteForm.addInstructionsForm("Saisissez le nom du site");
+        modificationSiteForm.addInstructionsForm("Voulez-vous personnaliser les contraintes y/n");
+        modificationSiteForm.addInstructionsForm("Longueur mdp");
+        modificationSiteForm.addInstructionsForm("Nombre de majuscules");
+        modificationSiteForm.addInstructionsForm("Nombre de minuscules");
+        modificationSiteForm.addInstructionsForm("Nombre de characteres speciaux");
+        modificationSiteForm.addInstructionsForm("Nombre de chiffres");
+        modificationSiteForm.addInstructionsForm("Saisissez l'identifiant du site");
+        modificationSiteForm.addInstructionsForm("Voulez-vous generer votre mdp automatiquement y/n");
+        modificationSiteForm.addInstructionsForm("Saisissez le mdp");
+        modificationSiteForm.addInstructionsForm("Voulez-vous ajouter des metadonnees y/n");
+        modificationSiteForm.addInstructionsForm("Ajout commentaires ");
+        modificationSiteForm.addInstructionsForm("Voulez-vous un rappel y/n");
+        modificationSiteForm.addInstructionsForm("Ajout duree avant rappel (XXj/XXm/XXy) ");
 
         List<Integer> tmpCursorList = Arrays.asList(0, 5, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0);
-        modificationSiteForm.getCursor().addAll(tmpCursorList);
+        modificationSiteForm.addCursor(tmpCursorList);
 
         List<InputType> tmpInputsList = Arrays.asList(InputType.NAME,InputType.YESNO,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NUM,InputType.NAME,InputType.YESNO,InputType.PASSWORD,InputType.YESNO,InputType.COM,InputType.YESNO,InputType.DURATION);
-        modificationSiteForm.getTypeInputs().addAll(tmpInputsList);
+        modificationSiteForm.addTypeInputs(tmpInputsList);
 
     }
 
@@ -77,7 +77,7 @@ public class ModificationSiteAction implements IAction {
 
                 }
 
-                modificationSiteForm.getInputsForm().add(tmpInput);
+                modificationSiteForm.addInputsForm(tmpInput);
             }
         }
         System.out.println("\n");

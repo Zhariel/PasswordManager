@@ -11,10 +11,10 @@ public class ModificationPasswordAction implements IAction {
 
     public ModificationPasswordAction() {
         modificationPasswordForm = new Form("Modification mot de passe");
-        modificationPasswordForm.getInstructionsForm().add("Saisissez votre identifiant");
-        modificationPasswordForm.getInstructionsForm().add("Saisissez votre ancien mdp");
-        modificationPasswordForm.getInstructionsForm().add("Saisissez votre nouveau mdp");
-        modificationPasswordForm.getInstructionsForm().add("Confirmation nouveau mdp");
+        modificationPasswordForm.addInstructionsForm("Saisissez votre identifiant");
+        modificationPasswordForm.addInstructionsForm("Saisissez votre ancien mdp");
+        modificationPasswordForm.addInstructionsForm("Saisissez votre nouveau mdp");
+        modificationPasswordForm.addInstructionsForm("Confirmation nouveau mdp");
     }
 
     public boolean run() {
@@ -32,7 +32,7 @@ public class ModificationPasswordAction implements IAction {
         System.out.println("\n" + modificationPasswordForm.getTitle() + "\n");
         for (int i = 0; i < numberInput; i++) {
             System.out.print(modificationPasswordForm.getInstructionsForm().get(i) + " : ");
-            modificationPasswordForm.getInputsForm().add(scanner.nextLine());
+            modificationPasswordForm.addInputsForm(scanner.nextLine());
         }
         System.out.println();
     }

@@ -12,15 +12,15 @@ public class DeleteUserAction implements IAction {
 
     public DeleteUserAction(){
         deleteUserForm = new Form("Suppression d'un utilisateur");
-        deleteUserForm.getInstructionsForm().add("Nom de l'utilisateur a supprimer");
-        deleteUserForm.getInstructionsForm().add("Saisissez le mdp de l'utilisateur a supprimer.");
+        deleteUserForm.addInstructionsForm("Nom de l'utilisateur a supprimer");
+        deleteUserForm.addInstructionsForm("Saisissez le mdp de l'utilisateur a supprimer");
 
     }
 
     @Override
     public boolean run() {
         launchForm();
-        boolean feedBackAction = Session.getInstance().getInstanceUserManager().initDeleteUser(deleteUserForm.getInputsForm());
+        boolean feedBackAction = Session.getInstance().getInstanceUserManager().deleteUser(deleteUserForm.getInputsForm());
 
         deleteUserForm.emptyList();
         return feedBackAction;
@@ -33,7 +33,7 @@ public class DeleteUserAction implements IAction {
         System.out.println(deleteUserForm.getTitle() + "\n");
         for (int i = 0; i < numberInput; i++) {
             System.out.print(deleteUserForm.getInstructionsForm().get(i) + " : ");
-            deleteUserForm.getInputsForm().add(scanner.nextLine());
+            deleteUserForm.addInputsForm(scanner.nextLine());
         }
         System.out.println("\n");
 

@@ -56,7 +56,7 @@ public class Session {
      * @Return a copy of currentUser
      **/
     public User getCurrentUser() {
-        return new User(this.currentUser.getName(), this.currentUser.getPassword(), this.currentUser.getEmail());
+        return new User(this.currentUser.getName(), this.currentUser.getPassword(), this.currentUser.getEmail(),this.currentUser.getListSites());
     }
 
     /**
