@@ -4,6 +4,7 @@ import fr.esgi.java.passwordmanager.display.menu.model.Form;
 import fr.esgi.java.passwordmanager.managers.InputType;
 import fr.esgi.java.passwordmanager.managers.SiteManager;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -42,7 +43,12 @@ public class ModificationSiteAction implements IAction {
     public boolean run() {
         launchForm();
         SiteManager siteManager = new SiteManager();
-        boolean feedBackAction = siteManager.modificationSite(modificationSiteForm.getInputsForm());
+        boolean feedBackAction = false;
+        try {
+            feedBackAction = siteManager.modificationSite(modificationSiteForm.getInputsForm());
+        } catch (FileNotFoundException e) {
+            System.out.println("Le site n'a pas pu être modifié.");
+        }
 
         modificationSiteForm.emptyList();
         return feedBackAction;

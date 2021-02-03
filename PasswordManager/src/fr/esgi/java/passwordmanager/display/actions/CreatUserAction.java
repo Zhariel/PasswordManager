@@ -23,8 +23,17 @@ public class CreatUserAction implements IAction {
     public boolean run() {
         launchForm();
 
-         UserManager userManager = new UserManager();
-         boolean feedBackAction = userManager.addUser(creatUserForm.getInputsForm());
+        UserManager userManager = null;
+        try {
+            userManager = new UserManager();
+        } catch (Exception e) {
+            System.out.println("Impossible de créer l'utilisateur.");
+        }
+        try {
+            boolean feedBackAction = userManager.addUser(creatUserForm.getInputsForm());
+        } catch (Exception e) {
+            System.out.print("Impossible de supprimer l'utilisateur.q");
+        }
 
         creatUserForm.emptyList();
         return true;

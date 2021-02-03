@@ -4,6 +4,7 @@ import fr.esgi.java.passwordmanager.display.menu.model.Form;
 import fr.esgi.java.passwordmanager.managers.InputType;
 import fr.esgi.java.passwordmanager.managers.SiteManager;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,7 +46,12 @@ public class AddSiteAction implements IAction {
         launchForm();
 
         SiteManager siteManager = new SiteManager();
-        boolean feedBackAction = siteManager.addSite(creatSiteForm.getInputsForm());
+        boolean feedBackAction = false;
+        try {
+            feedBackAction = siteManager.addSite(creatSiteForm.getInputsForm());
+        } catch (FileNotFoundException e) {
+            System.out.println("Le site n'a pas pu être ajouté.");
+        }
 
         creatSiteForm.emptyList();
         return feedBackAction;
