@@ -12,6 +12,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -22,23 +23,19 @@ public class UserManager {
     public ArrayList<User> usersList;
 
 
-    public UserManager(){
+    public UserManager() throws Exception {
         fileUsers = new UserFile();
         usersList = creationOfUsersList();
     }
 
 
-    public ArrayList<User> creationOfUsersList(){
+    public ArrayList<User> creationOfUsersList() throws Exception {
 
         ArrayList<User> users = new ArrayList<User>();
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode array = null;
 
-        try {
             array = (ArrayNode) mapper.readTree(fileUsers.file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         if(array.isArray()){
             for(JsonNode node : array){
@@ -50,8 +47,7 @@ public class UserManager {
     }
 
 
-    public void insertUser(User newUser){
-        try {
+    public void insertUser(User newUser) throws Exception{
             if(checkDuplicateUser(newUser.getName())){
                 return;
             }
@@ -68,15 +64,9 @@ public class UserManager {
             usersList.add(newUser);
             creatDataFile(newUser);
 
-        }
-        catch (Exception e){
-            System.out.println("Impossible d'ajouter " + newUser.getName());
-            System.out.println(e);
-        }
-
     }
 
-    public boolean initDeleteUser(ArrayList<String> listInputs){
+    public boolean initDeleteUser(ArrayList<String> listInputs) throws IOException {
         int i=0;
         for (User user : usersList) {
             if (user.getName().equals(listInputs.get(0))) {
@@ -91,8 +81,7 @@ public class UserManager {
         return false;
     }
 
-    public void deleteUser(User userSelected){
-        try {
+    public void deleteUser(User userSelected) throws IOException {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -115,11 +104,6 @@ public class UserManager {
 
             deleteUserInListUsers(userSelected);
             deleteDataFile(userSelected);
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -225,7 +209,7 @@ public class UserManager {
         }
     }
 
-    public boolean addUser(ArrayList<String> inputsForm) {
+    public boolean addUser(ArrayList<String> inputsForm) throws Exception {
 
         if(!emailValidity(inputsForm.get(3))){
             System.out.println("Email invalide.");
@@ -248,7 +232,7 @@ public class UserManager {
         return true;
     }
 
-    private boolean creatUser(ArrayList<String> inputsForm) {
+    private boolean creatUser(ArrayList<String> inputsForm) throws Exception{
 
         Password password = new Password(inputsForm.get(1),true);
         User newUser = new User(inputsForm.get(0),password,inputsForm.get(3));

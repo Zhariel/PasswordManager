@@ -9,6 +9,7 @@ import fr.esgi.java.passwordmanager.Session;
 import fr.esgi.java.passwordmanager.models.*;
 import fr.esgi.java.passwordmanager.files.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,17 +34,12 @@ public class SiteManager {
         return false;
     }
 
-    public boolean addSite(ArrayList<String> listInputs) {
+    public boolean addSite(ArrayList<String> listInputs) throws FileNotFoundException {
 
         Site newSite;
 
         //First : Creat Site.
-        try {
             newSite = new Site(listInputs);
-        } catch (Exception e) {
-            System.out.println("Un probleme est survenu lors de l'ajout du site. Veuillez ressayer.");
-            return false;
-        }
 
         //Second : InsertSite
         if(!insertSiteInFileData(newSite)){
@@ -250,7 +246,7 @@ public class SiteManager {
     }
 
 
-    public boolean modificationSite(ArrayList<String> inputsForm) {
+    public boolean modificationSite(ArrayList<String> inputsForm) throws FileNotFoundException{
 
         Site siteSelected = findSiteInListSites(inputsForm.get(0));
         if(siteSelected==null){
