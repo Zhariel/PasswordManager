@@ -1,5 +1,8 @@
 package fr.esgi.java.passwordmanager.models;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -232,7 +235,7 @@ public class Password {
         this.password = password;
     }
 
-    public String encryption(String password) {
+    public String encryption() {
 
         StringBuilder encrypt = new StringBuilder();
         int ascii;
@@ -241,13 +244,18 @@ public class Password {
 
             if (charSpecial.contains(password.charAt(i))) {
                 encrypt.append(charSpecial.get((charSpecial.indexOf(password.charAt(i)) + KEY) % charSpecial.size()));
-            } else if (isLowerCase(password.charAt(i)) || isUpperCase(password.charAt(i))) {
+            } else if ( isUpperCase(password.charAt(i))) {
                 ascii = (int) password.charAt(i);
-                ascii = (ascii + KEY) % 26;
+                ascii = 65 + ((ascii - 65 + KEY) % 26);
+                encrypt.append((char) ascii);
+            }else if(isLowerCase(password.charAt(i))){
+                ascii = (int) password.charAt(i);
+                ascii = 97 + ((ascii - 97 + KEY) % 26);
                 encrypt.append((char) ascii);
             } else if (isInterger(password.charAt(i))) {
-                ascii = (Integer.parseInt(String.valueOf((password.charAt(i))) + KEY) % 10);
-                encrypt.append((char) ascii);
+                int n = Integer.parseInt(String.valueOf((password.charAt(i))));
+                ascii = ( n + KEY) % 10;
+                encrypt.append(ascii);
             } else {
                 encrypt.append(password.charAt(i));
             }
@@ -257,7 +265,8 @@ public class Password {
         return encrypt.toString();
     }
 
-    public String decryption(String password) {
+    public String decryption() {
+
 
         StringBuilder decrypt = new StringBuilder();
         int ascii;
@@ -265,18 +274,42 @@ public class Password {
         for (int i = 0; i < password.length(); i++) {
 
             if (charSpecial.contains(password.charAt(i))) {
-                decrypt.append(charSpecial.get((charSpecial.indexOf(password.charAt(i)) - KEY) % charSpecial.size()));
-            } else if (isLowerCase(password.charAt(i)) || isUpperCase(password.charAt(i))) {
+                int index = charSpecial.indexOf(password.charAt(i)) - KEY;
+                if(index<0){
+                    index=charSpecial.size()+index;
+                }
+                decrypt.append(charSpecial.get(index));
+            } else if ( isUpperCase(password.charAt(i))) {
                 ascii = (int) password.charAt(i);
-                ascii = (ascii - KEY) % 26;
+                int a=ascii-65 - KEY;
+                int b= a%26;
+                if(b<0){
+                    ascii=91+b;
+                }else{
+                    ascii=65+b;
+                }
+                decrypt.append((char) ascii);
+            }else if(isLowerCase(password.charAt(i))){
+                ascii = (int) password.charAt(i);
+                int a=ascii-97 - KEY;
+                int b= a%26;
+                if(b<0){
+                    ascii=123+b;
+                }else{
+                    ascii=97+b;
+                }
                 decrypt.append((char) ascii);
             } else if (isInterger(password.charAt(i))) {
-                ascii = Integer.parseInt(String.valueOf((password.charAt(i) - KEY) % 10));
-                decrypt.append((char) ascii);
+                int n =Integer.parseInt(String.valueOf(password.charAt(i)));
+                if(n>=3){
+                    ascii = n-3;
+                }else{
+                    ascii = n+7;
+                }
+                decrypt.append(ascii);
             } else {
                 decrypt.append(password.charAt(i));
             }
-
         }
 
         return decrypt.toString();
@@ -323,6 +356,23 @@ public class Password {
         int index = (int) (Math.random() * charSpecial.size());
 
         return charSpecial.get(index);
+    }
+
+    public String hash(String mdp) {
+        String newhash = "";
+
+
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        md.update(mdp.getBytes());
+        byte[] digest = md.digest();
+
+        return new String(digest, StandardCharsets.UTF_8);
     }
 
 }

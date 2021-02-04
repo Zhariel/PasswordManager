@@ -1,5 +1,7 @@
 package fr.esgi.java.passwordmanager.display.actions;
 
+import java.io.IOException;
+
 /**IAction
  * Interface for each menu action.
  * Contain two functions :
@@ -9,6 +11,6 @@ package fr.esgi.java.passwordmanager.display.actions;
 
 public interface IAction {
 
-    public boolean run();
+    public boolean run() throws Exception;
     public void launchForm();
 }

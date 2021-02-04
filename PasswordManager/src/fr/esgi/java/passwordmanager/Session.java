@@ -92,7 +92,12 @@ public class Session {
      * userManager is initialized once, in the start of application.
      **/
     public void initUserManager() {
-        userManager = new UserManager();
+
+        try {
+            userManager = new UserManager();
+        } catch (Exception e) {
+            System.out.println("L'application rencontre un probleme. Le fichier user est corrompus ou introuvable.");
+        }
     }
 
     /**

@@ -20,7 +20,7 @@ public class CreatUserAction implements IAction {
     }
 
     @Override
-    public boolean run() {
+    public boolean run() throws Exception {
         launchForm();
 
          UserManager userManager = new UserManager();

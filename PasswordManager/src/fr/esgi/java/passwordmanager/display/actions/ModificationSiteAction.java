@@ -4,6 +4,7 @@ import fr.esgi.java.passwordmanager.display.menu.model.Form;
 import fr.esgi.java.passwordmanager.managers.InputType;
 import fr.esgi.java.passwordmanager.managers.SiteManager;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +18,7 @@ public class ModificationSiteAction implements IAction {
 
         modificationSiteForm = new Form("Modification d'un site");
         modificationSiteForm.addInstructionsForm("Saisissez le nom du site");
-        modificationSiteForm.addInstructionsForm("Voulez-vous personnaliser les contraintes y/n");
+        modificationSiteForm.addInstructionsForm("Voulez-vous personnaliser les contraintes de votre mot de passe y/n");
         modificationSiteForm.addInstructionsForm("Longueur mdp");
         modificationSiteForm.addInstructionsForm("Nombre de majuscules");
         modificationSiteForm.addInstructionsForm("Nombre de minuscules");

@@ -18,7 +18,7 @@ public class DeleteUserAction implements IAction {
     }
 
     @Override
-    public boolean run() {
+    public boolean run() throws Exception {
         launchForm();
         boolean feedBackAction = Session.getInstance().getInstanceUserManager().deleteUser(deleteUserForm.getInputsForm());
 

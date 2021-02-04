@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class Launcher {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
         //********************
         //***Initialization***
@@ -42,7 +42,7 @@ public class Launcher {
 
             } catch (InputMismatchException ec) {
 
-                System.out.println("Veuillez entrez un int");
+                System.out.println("Veuillez entrez un chiffre valide.");
                 scanner.nextLine(); // empty the buffer, nextInt() doesn't it when an error occurs.
 
             } catch (Exception e) {

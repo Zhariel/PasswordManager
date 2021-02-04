@@ -9,30 +9,57 @@ import fr.esgi.java.passwordmanager.Session;
 import fr.esgi.java.passwordmanager.models.*;
 import fr.esgi.java.passwordmanager.files.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Class SiteManager
+ * Creation, modification and suppression of sites are manage by this class.
+ **/
+
+
 public class SiteManager {
 
+    /**
+     * DataFile of the user.
+     **/
     DataFile dataFile;
 
+    /**
+     * Constructor
+     * Instantiate dataFile;
+     **/
     public SiteManager() {
-
         dataFile = new DataFile(Session.getInstance().getCurrentUser().getName());
     }
 
-
-    public boolean checkDuplicateSite(String newSite) {
+    /**
+     * Function checkDuplicateSite
+     *
+     * @return boolean
+     * @Param nameSite
+     **/
+    public boolean checkDuplicateSite(String nameNewSite) {
 
         for (Site site : Session.getInstance().getCurrentUser().getListSites()) {
-            if (site.getName().equals(newSite)) {
+            if (site.getName().equals(nameNewSite)) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Function addSite
+     * This function launch the process of adSite by run function in addSiteAction
+     * It call site constructor, insertSiteInFile and insertSiteOnListSite.
+     *
+     * @param listInputs : array of input
+     * @return boolean
+     **/
     public boolean addSite(ArrayList<String> listInputs) {
 
         Site newSite;
@@ -45,8 +72,8 @@ public class SiteManager {
             return false;
         }
 
-        //Second : InsertSite
-        if(!insertSiteInFileData(newSite)){
+        //Second : Insert new site in file
+        if (!insertSiteInFileData(newSite)) {
             return false;
         }
 
@@ -56,11 +83,18 @@ public class SiteManager {
         return true;
     }
 
+    /**
+     * Function insertSiteInFileData
+     * This function write in fileData.
+     *
+     * @param newSite : array of input
+     * @return boolean
+     **/
+    public boolean insertSiteInFileData(Site newSite) {
 
-    public boolean insertSiteInFileData(Site s) {
         try {
 
-            if (checkDuplicateSite(s.getName())) {
+            if (checkDuplicateSite(newSite.getName())) {
                 System.out.println("Site deja existant");
                 return false;
             }
@@ -68,14 +102,16 @@ public class SiteManager {
             ObjectMapper mapper = new ObjectMapper();
             ArrayNode array = (ArrayNode) mapper.readTree(dataFile.file);
 
-            ObjectNode site = javaToJson(s);
+            ObjectNode site = javaToJson(newSite);
 
             array.add(site);
             mapper.writeValue(dataFile.file, array);
-            System.out.println("Ajout reussi pour " + s.getName());
+            System.out.println("Ajout reussi pour " + newSite.getName());
+        } catch (FileNotFoundException e) {
+            System.out.println("Impossible d'ajouter " + newSite.getName() + ", fichier user introuvable. Veillez relancer l'application.");
+            return false;
         } catch (Exception e) {
-            System.out.println("Impossible d'ajouter " + s.getName());
-            System.out.println(e);
+            System.out.println("Impossible d'ajouter " + newSite.getName() + ", fichier user compromis. Veillez le supprimer et relancer l'application.");
             return false;
         }
 
@@ -126,8 +162,10 @@ public class SiteManager {
         metadata.put("duration", s.metaData.getDuration());
         metadata.put("comment", s.metaData.getComment());
 
+        Password tmpPassword = new Password(s.getPassword(),false);
+
         site.put("name", s.getName());
-        site.put("password", s.getPassword());
+        site.put("password", tmpPassword.encryption());
         site.put("idUser", s.getIdUser());
         site.put("constraint", constraint);
         site.put("metaData", metadata);
@@ -157,8 +195,10 @@ public class SiteManager {
                     node.get("metaData").get("comment").toString().replace("\"", "")
             );
 
+            Password tmpPassword = new Password(node.get("password").toString().replace("\"", ""),false);
+
             Password p = new Password(
-                    node.get("password").toString().replace("\"", ""), false
+                    tmpPassword.decryption(), false
             );
 
             Site s = new Site(
@@ -253,7 +293,7 @@ public class SiteManager {
     public boolean modificationSite(ArrayList<String> inputsForm) {
 
         Site siteSelected = findSiteInListSites(inputsForm.get(0));
-        if(siteSelected==null){
+        if (siteSelected == null) {
             System.out.println("Site non trouve.");
             return false;
         }
@@ -275,5 +315,6 @@ public class SiteManager {
             i++;
         }
     }
+
 
 }

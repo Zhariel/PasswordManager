@@ -61,4 +61,16 @@ public class DataFile {
     public String path() {
         return "src\\fr\\esgi\\java\\passwordmanager\\json\\" + this.username + "Data.json";
     }
+
+    public boolean dataIntegrityOfDataFile() throws IOException {
+
+        try {
+            String containFile = fileToString();
+            return containFile.charAt(0) == '[' && containFile.charAt(containFile.length() - 1) == ']';
+        }catch (Exception e){
+            System.out.println("Fichier data introuvable.");
+            return false;
+        }
+
+    }
 }

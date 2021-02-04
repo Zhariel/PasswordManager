@@ -4,6 +4,7 @@ import fr.esgi.java.passwordmanager.display.menu.model.Form;
 import fr.esgi.java.passwordmanager.managers.InputType;
 import fr.esgi.java.passwordmanager.managers.SiteManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +19,7 @@ public class AddSiteAction implements IAction {
 
         creatSiteForm = new Form("Ajout d'un site");
         creatSiteForm.addInstructionsForm("Saisissez le nom du site");
-        creatSiteForm.addInstructionsForm("Voulez-vous personnaliser les contraintes y/n");
+        creatSiteForm.addInstructionsForm("Voulez-vous personnaliser les contraintes de votre mot de passe y/n");
         creatSiteForm.addInstructionsForm("Longueur mdp");
         creatSiteForm.addInstructionsForm("Nombre de majuscules");
         creatSiteForm.addInstructionsForm("Nombre de minuscules");

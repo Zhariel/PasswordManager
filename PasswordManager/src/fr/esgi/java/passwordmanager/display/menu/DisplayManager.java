@@ -7,6 +7,7 @@ import fr.esgi.java.passwordmanager.display.menu.model.Menu;
 import fr.esgi.java.passwordmanager.managers.SiteManager;
 import fr.esgi.java.passwordmanager.models.Site;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class DisplayManager {
      *                     launche the action binding at this option menu selected.
      * @return boolean : feedback of the process.
      */
-    public boolean executeAction(int actionNumber) {
+    public boolean executeAction(int actionNumber) throws Exception {
 
         int effectiveActionNumber = actionNumber - 1;
         if (effectiveActionNumber < 0 || effectiveActionNumber >= currentMenu.actionsMap.size()) {
