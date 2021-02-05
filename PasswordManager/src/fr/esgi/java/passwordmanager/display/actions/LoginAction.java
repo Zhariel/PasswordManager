@@ -19,8 +19,12 @@ public class LoginAction implements IAction {
     @Override
     public boolean run() {
         launchForm();
-        boolean feedBackAction = Session.getInstance().getInstanceUserManager().login(loginForm.getInputsForm());
-
+        boolean feedBackAction;
+        try {
+            feedBackAction = Session.getInstance().getInstanceUserManager().login(loginForm.getInputsForm());
+        }catch(Exception e){
+            feedBackAction = false;
+        }
         loginForm.emptyList();
         return feedBackAction;
     }

@@ -24,6 +24,8 @@ public class Password {
     private boolean master;
     private static final int KEY = 13;
     private ArrayList<Character> charSpecial;
+    private static final char[] hex = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+
 
     /**
      * Constructor
@@ -51,6 +53,7 @@ public class Password {
         initCharSpecialArray();
         this.master = master;
         this.password = password;
+
     }
 
     /**
@@ -267,52 +270,49 @@ public class Password {
 
     public String decryption() {
 
-
         StringBuilder decrypt = new StringBuilder();
         int ascii;
-
         for (int i = 0; i < password.length(); i++) {
-
             if (charSpecial.contains(password.charAt(i))) {
                 int index = charSpecial.indexOf(password.charAt(i)) - KEY;
-                if(index<0){
-                    index=charSpecial.size()+index;
-                }
+                if(index<0){ index=charSpecial.size()+index; }
                 decrypt.append(charSpecial.get(index));
             } else if ( isUpperCase(password.charAt(i))) {
                 ascii = (int) password.charAt(i);
-                int a=ascii-65 - KEY;
-                int b= a%26;
-                if(b<0){
-                    ascii=91+b;
-                }else{
-                    ascii=65+b;
-                }
+                ascii=(ascii-65 - KEY)%26;
+                if(ascii<0){ ascii+=91;
+                }else{ ascii+=65; }
                 decrypt.append((char) ascii);
             }else if(isLowerCase(password.charAt(i))){
                 ascii = (int) password.charAt(i);
-                int a=ascii-97 - KEY;
-                int b= a%26;
-                if(b<0){
-                    ascii=123+b;
-                }else{
-                    ascii=97+b;
-                }
+                ascii=(ascii-97-KEY)%26;
+                if(ascii<0){ ascii+=123;
+                }else{ ascii+=97;}
                 decrypt.append((char) ascii);
             } else if (isInterger(password.charAt(i))) {
                 int n =Integer.parseInt(String.valueOf(password.charAt(i)));
-                if(n>=3){
-                    ascii = n-3;
-                }else{
-                    ascii = n+7;
-                }
+                if(n>=3){ ascii = n-3;
+                }else{ ascii = n+7; }
                 decrypt.append(ascii);
-            } else {
-                decrypt.append(password.charAt(i));
-            }
+            } else { decrypt.append(password.charAt(i)); }
         }
-
         return decrypt.toString();
+    }
+
+
+    public String hash() throws NoSuchAlgorithmException {
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        messageDigest.update(password.getBytes());
+        return byteArray2Hex(messageDigest.digest());
+    }
+
+    public static String byteArray2Hex(byte[] bytes) {
+        StringBuffer sb = new StringBuffer(bytes.length * 2);
+        for(final byte b : bytes) {
+            sb.append(hex[(b & 0xF0) >> 4]);
+            sb.append(hex[b & 0x0F]);
+        }
+        return sb.toString();
     }
 
     /**
@@ -356,23 +356,6 @@ public class Password {
         int index = (int) (Math.random() * charSpecial.size());
 
         return charSpecial.get(index);
-    }
-
-    public String hash(String mdp) {
-        String newhash = "";
-
-
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        md.update(mdp.getBytes());
-        byte[] digest = md.digest();
-
-        return new String(digest, StandardCharsets.UTF_8);
     }
 
 }

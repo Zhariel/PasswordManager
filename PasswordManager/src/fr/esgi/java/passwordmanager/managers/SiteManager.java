@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * Creation, modification and suppression of sites are manage by this class.
  **/
 
-
 public class SiteManager {
 
     /**
@@ -162,7 +161,7 @@ public class SiteManager {
         metadata.put("duration", s.metaData.getDuration());
         metadata.put("comment", s.metaData.getComment());
 
-        Password tmpPassword = new Password(s.getPassword(),false);
+        Password tmpPassword = new Password(s.getPassword(), false);
 
         site.put("name", s.getName());
         site.put("password", tmpPassword.encryption());
@@ -195,7 +194,7 @@ public class SiteManager {
                     node.get("metaData").get("comment").toString().replace("\"", "")
             );
 
-            Password tmpPassword = new Password(node.get("password").toString().replace("\"", ""),false);
+            Password tmpPassword = new Password(node.get("password").toString().replace("\"", ""), false);
 
             Password p = new Password(
                     tmpPassword.decryption(), false
@@ -254,7 +253,6 @@ public class SiteManager {
         return sites;
     }
 
-
     public Site findSiteInListSites(String site) {
 
         int nbSites = Session.getInstance().getCurrentUser().getListSites().size();
@@ -289,7 +287,6 @@ public class SiteManager {
         }
     }
 
-
     public boolean modificationSite(ArrayList<String> inputsForm) {
 
         Site siteSelected = findSiteInListSites(inputsForm.get(0));
@@ -304,7 +301,6 @@ public class SiteManager {
         return true;
     }
 
-
     private void removeSiteToListSites(Site siteSelected) {
         int i = 0;
         for (Site site : Session.getInstance().getCurrentUser().getListSites()) {
@@ -315,6 +311,5 @@ public class SiteManager {
             i++;
         }
     }
-
 
 }

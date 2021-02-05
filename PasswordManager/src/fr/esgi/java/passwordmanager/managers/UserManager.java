@@ -14,6 +14,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 /**
@@ -52,7 +53,7 @@ public class UserManager {
     }
 
 
-    public void insertUser(User newUser) throws IOException {
+    public void insertUser(User newUser) throws IOException, NoSuchAlgorithmException {
 
         if (checkDuplicateUser(newUser.getName())) {
             return;
@@ -66,6 +67,8 @@ public class UserManager {
         array.add(user);
         mapper.writeValue(fileUsers.file, array);
         System.out.println(newUser.getName() + " a bien ete ajoute.");
+
+        newUser.getPassword().setPassword(newUser.getPassword().hash());
 
         usersList.add(newUser);
         creatDataFile(newUser);
@@ -134,14 +137,14 @@ public class UserManager {
         return false;
     }
 
-    public ObjectNode javaToJson(User userToConvert) {
+    public ObjectNode javaToJson(User userToConvert) throws NoSuchAlgorithmException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         ObjectNode user = mapper.createObjectNode();
 
         user.put("name", userToConvert.getName());
-        user.put("password", userToConvert.password.getPassword());
+        user.put("password", userToConvert.password.hash());
         user.put("email", userToConvert.getEmail());
 
         return user;
@@ -169,12 +172,13 @@ public class UserManager {
     }
 
 
-    public boolean login(ArrayList<String> ArrayInputs) {
+    public boolean login(ArrayList<String> ArrayInputs) throws NoSuchAlgorithmException {
 
+        Password tmpPassword = new Password(ArrayInputs.get(1),true);
 
         for (User user : usersList) {
             if (user.getName().equals(ArrayInputs.get(0))) {
-                if (user.getPassword().getPassword().equals(ArrayInputs.get(1))) {
+                if (user.getPassword().getPassword().equals(tmpPassword.hash())) {
                     Session.getInstance().setCurrentUser(user);
                     return true;
                 }
@@ -210,7 +214,7 @@ public class UserManager {
         }
     }
 
-    public boolean addUser(ArrayList<String> inputsForm) throws IOException {
+    public boolean addUser(ArrayList<String> inputsForm) throws IOException, NoSuchAlgorithmException {
 
         if (!emailValidity(inputsForm.get(3))) {
             System.out.println("Email invalide.");
@@ -233,9 +237,10 @@ public class UserManager {
         return true;
     }
 
-    private boolean creatUser(ArrayList<String> inputsForm) throws IOException {
+    private boolean creatUser(ArrayList<String> inputsForm) throws IOException, NoSuchAlgorithmException {
 
         Password password = new Password(inputsForm.get(1), true);
+        password.setPassword(password.hash());
         User newUser = new User(inputsForm.get(0), password, inputsForm.get(3));
 
         insertUser(newUser);
@@ -252,18 +257,21 @@ public class UserManager {
 
     }
 
-    public boolean modificationPassword(ArrayList<String> listInputs) {
+    public boolean modificationPassword(ArrayList<String> listInputs) throws NoSuchAlgorithmException {
 
         if (!listInputs.get(2).equals(listInputs.get(3))) {
             System.out.println("Nouveau mdp et mdp de confimation different.");
             return false;
         }
 
+        Password tmpOldPassword = new Password(listInputs.get(1),true);
+        Password tmpNewPassword = new Password(listInputs.get(2),true);
+
         int i = 0;
         for (User user : usersList) {
             if (user.getName().equals(listInputs.get(0))) {
-                if (user.getPassword().getPassword().equals(listInputs.get(1))) {
-                    user.setPassword(listInputs.get(2));
+                if (user.getPassword().getPassword().equals(tmpOldPassword.hash())) {
+                    user.setPassword(tmpNewPassword.hash());
                     replaceUser(user);
                     return true;
                 }
@@ -298,7 +306,7 @@ public class UserManager {
                 mapper.writeValue(fileUsers.file, array);
             }
 
-        } catch (IOException e) {
+        } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }

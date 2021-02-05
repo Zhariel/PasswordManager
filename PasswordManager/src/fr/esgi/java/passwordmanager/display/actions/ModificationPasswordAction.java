@@ -2,6 +2,8 @@ package fr.esgi.java.passwordmanager.display.actions;
 
 import fr.esgi.java.passwordmanager.Session;
 import fr.esgi.java.passwordmanager.display.menu.model.Form;
+
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class ModificationPasswordAction implements IAction {
@@ -17,7 +19,7 @@ public class ModificationPasswordAction implements IAction {
         modificationPasswordForm.addInstructionsForm("Confirmation nouveau mdp");
     }
 
-    public boolean run() {
+    public boolean run() throws NoSuchAlgorithmException {
         launchForm();
 
         boolean feedBackAction = Session.getInstance().getInstanceUserManager().modificationPassword(modificationPasswordForm.getInputsForm());
